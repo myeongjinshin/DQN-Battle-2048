@@ -1,0 +1,24 @@
+{
+    "map_width" : 5,
+    "load_model" : false,
+    "model_name" : "model_0805_2011.h5",
+    "discount_factor" : 0.99,
+    "learning_rate" : 0.001,
+    "epsilon" : 1.0,
+    "epsilon_decay" : 0.999,
+    "epsilon_min" : 0.01,
+    "batch_size" : 64,
+    "train_start" : 300,
+    "max_memory" : 10000,
+    "initial" : {
+        "map_width" : 5,
+        "discount_factor" : 0.99,
+        "learning_rate" : 0.001,
+        "epsilon" : 1.0,
+        "epsilon_decay" : 0.999,
+        "epsilon_min" : 0.01,
+        "batch_size" : 64,
+        "train_start" : 300,
+        "max_memory" : 4000
+    }
+}
