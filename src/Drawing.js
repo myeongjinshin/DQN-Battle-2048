@@ -16,8 +16,8 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, ra
     return this;
 }
 
-const playerColor = ["88d4ab", "88d4ab", "78c6a3", "67b99a", "56ab91", "469d89", "358f80", "248277", "14746f", "036666"];
-const aiColor = ["ffba08", "faa307", "f48c06", "e85d04", "dc2f02", "d00000", "9d0208", "6a040f", "370617", "03071e"]
+const playerColor = ["ffba08", "faa307", "f48c06", "e85d04", "dc2f02", "d00000", "9d0208", "6a040f", "370617", "03071e"];
+const aiColor = ["fbc1fa", "f56ff3", "f34df0", "f12ced", "ea0fe6", "c90cc5", "a70aa4", "860883", "640662", "430441"];
 
 function drawGrid(canvas){
     const ctx = canvas.getContext('2d');

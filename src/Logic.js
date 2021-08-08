@@ -77,7 +77,7 @@ export function calcResult(l_state, action, turn)
                 next_state.push(next_2d[j][map_size-i-1]);
             }
         }
-        const path = _path.map(x => [map_size-x[1]-1,x[0], map_size-x[3]-1,x[2]]);
+        const path = _path.map(x => [map_size-x[1]-1, x[0], map_size-x[3]-1, x[2]]);
         return [path, next_state];
     }
 }
@@ -136,7 +136,6 @@ function action_right(state, turn){
             }
         }
     }
-
     //create random block (1 or 2)
     const empty_pos = []
     for (let row=0; row<map_size; row++){

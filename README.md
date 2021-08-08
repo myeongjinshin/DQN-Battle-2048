@@ -29,4 +29,4 @@ If your opponent's `score` is 10 times higher than your `score`, you lose.
 
 ## Screenshots
 
-![initial](https://user-images.githubusercontent.com/17401630/128627155-40d80870-6ce1-4b40-903b-b39f01cd7a68.png)
+![initial](https://user-images.githubusercontent.com/17401630/128634089-9ed78bed-4464-4c7c-a51c-3d03684d50be.png)
