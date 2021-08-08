@@ -20,7 +20,15 @@ ol, ul {
   text-align: center;
   font-size: 50px;
   color: #fff;
-  min-height: 100px;
+  min-height: 50px;
+}
+
+.game-score {
+  background: transparent;
+  text-align: center;
+  color: #fff;
+  min-height: 50px;
+  margin-top : -7%;
 }
 
 

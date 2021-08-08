@@ -42,18 +42,7 @@ class Game extends React.Component {
     const tmp = this;
     model.onmessage = function(e) {
       const data = e.data;
-      if(data["type"] === "message")
-      {
-        if(data["value"] === "finish")
-        {
-          console.log(database);
-          socket.emit("database", database);
-          tmp.setState({
-            end:true,
-          });
-        }
-      }
-      else if(data["type"] === "action"){
+      if(data["type"] === "action"){
         const bef_state = tmp.state.history[tmp.state.index].squares;
         const bef = calculateScore(bef_state);
         const action = data["value"];
@@ -63,10 +52,10 @@ class Game extends React.Component {
         const current = tmp.state.history[tmp.state.index];
 
         database.push({
-          "state" : formatter(bef_state),
+          "state" : bef_state,
           "action" : action,
           "reward" : 100,
-          "next_state" : formatter(current),
+          "next_state" : current,
           "done" : false
         });
       }
@@ -77,34 +66,56 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
-    console.log("mounted");
     this.ctx = this.canvasRef.current.getContext("2d");
     drawState(this.canvasRef.current, this.state.history[this.state.index].squares);
   }
 
   handleKeyboard(event){
+    const current = this.state.history[this.state.index];
+    if(current.turn === false){
+      return ;
+    }
+    let result = true;
     if(event.key == "ArrowRight") {
-      this.handleAction(0);
+      result = this.handleAction(0);
     }
     else if(event.key == "ArrowLeft") {
-      this.handleAction(1);
+      result = this.handleAction(1);
     }
     else if(event.key == "ArrowDown") {
-      this.handleAction(2);
+      result = this.handleAction(2);
     }
     else if(event.key == "ArrowUp") {
-      this.handleAction(3);
+      result = this.handleAction(3);
     }
+    if(result === false) {
+      return ;
+    }
+    const nxt = this.state.history[this.state.index].squares;
+    setTimeout(() => model.postMessage({"type":"state", "state":nxt}), 1000);
   }
 
   handleAction(action) {
+    if(this.state.end == true) {
+      return ;
+    }
     const history = this.state.history.slice(0, this.state.index + 1);
     const current = this.state.history[this.state.index];
     const [paths, nxt] = calcResult(current.squares, action, current.turn);
 
      //아무것도 바뀌지 않는다면 turn을 넘기지 않음.
     if(JSON.stringify(current.squares) === JSON.stringify(nxt)){
-      return ;
+      console.log("cut", current.turn);
+      if(current.turn == false){
+        console.log("roll back", action);
+        model.postMessage({"type":"message", "value" : "again", "action":action, "state" : current.squares});
+      }
+      return false;
+    }
+    const end = false;
+    const [myScore, aiScore] = calculateScore(current.squares);
+    if(myScore >= aiScore * 10 || myScore * 10 <= aiScore) {
+      end = true;
     }
     this.setState({
       history: history.concat([{
@@ -112,8 +123,10 @@ class Game extends React.Component {
         turn:!current.turn,
       }]),
       index: this.state.index+1,
+      end:end,
     });
     animationPath(this.canvasRef.current, current.squares, paths, nxt);
+    return true;
   }
 
   rollBack(){
@@ -140,17 +153,31 @@ class Game extends React.Component {
     const current = history[this.state.index];
 
     let status = "Battle 2048!!"
-
     let message = "Your Turn";
 
     if(current.turn === false) {
       message = "Ai's Turn";
     }
 
+    const [myScore, aiScore] = calculateScore(current.squares);
+    const scoreBoard = "You : "+myScore+" AI : "+aiScore;
+
+    if(this.state.end === true){
+      if(myScore >= aiScore * 10) {
+        status = "You Win!!"
+      }
+      if(myScore * 10 <= aiScore) {
+        status = "You Lose"
+      }
+    }
+
     return (
       <div className="game">
         <h1 className="game-title">
           <div>{status}</div>
+        </h1>
+        <h1 className="game-score">
+          <div>{scoreBoard}</div>
         </h1>
         <canvas ref={this.canvasRef} width={'500'} height={'500'}></canvas>
         <h1 className="game-info">
@@ -163,22 +190,16 @@ class Game extends React.Component {
 
 
 function calculateScore(state){
-  let score = 0;
+  let myScore = 0, aiScore = 0;
   for(let i = 0;i<state.length;i++){
-    if(state[i] === 'X') score++;
-    else if(state[i] === 'O') score--;
+    if(state[i] > 0){
+      aiScore += Math.pow(2, state[i]-1);
+    }
+    else if(state[i] < 0){
+      myScore += Math.pow(2, -state[i]-1);
+    }
   }
-  return score;
-}
-
-function formatter(state){
-  let ret = Array(map_size * map_size).fill(0);
-  for(let i = 0;i<state.length;i++){
-    if(state[i] === 'X') ret[i]=-1;
-    else if(state[i] === 'O') ret[i]=1;
-    else ret[i]=0;
-  }
-  return ret;
+  return [myScore, aiScore];
 }
 
 export default Game;

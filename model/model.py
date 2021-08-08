@@ -20,7 +20,7 @@ class DQNAgent:
         self.model_name = props["model_name"]
         # DQN 하이퍼파라미터
         self.map_width = props["map_width"]
-        self.action_size = self.map_width ** 2
+        self.action_size = 4
         self.state_size = self.map_width ** 2
         self.discount_factor = props["discount_factor"]
         self.learning_rate = props["learning_rate"]
@@ -46,7 +46,7 @@ class DQNAgent:
 
     def build_model(self):
         model = keras.models.Sequential()
-        model.add(layers.Dense(24, input_dim=self.state_size, activation="relu", kernel_initializer="he_uniform"))
+        model.add(layers.Dense(24, input_dim=self.state_size, activation="sigmoid", kernel_initializer="he_uniform"))
         model.add(layers.Dense(24, activation="relu", kernel_initializer="he_uniform"))
         model.add(layers.Dense(24, activation="relu", kernel_initializer="he_uniform"))
         model.add(
@@ -124,5 +124,5 @@ if __name__ == "__main__":
     if len(agent.memory) >= agent.train_start:
         for i in range(50) :
             agent.train_model()
-        agent.model.save_weights("./history/"+agent.model_name)
-        tfjs.converters.save_keras_model(agent.model, "./history")
+    agent.model.save_weights("./history/"+agent.model_name)
+    tfjs.converters.save_keras_model(agent.model, "./history")
