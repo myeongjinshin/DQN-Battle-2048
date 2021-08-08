@@ -98,19 +98,33 @@ function action_right(state, turn){
                 paths.push([row, col, row, holder]);
                 continue;
             }
-            if (next_state[row][holder] === 0 ){
-                //move
+            if (next_state[row][holder] === 0 ){ //move
                 next_state[row][holder] = state[row][col];
                 paths.push([row, col, row, holder]);
                 holder--;
             }
-            else if (next_state[row][holder] === state[row][col]){
-                //merge
+            else if (next_state[row][holder] === state[row][col]){ //merge
                 if(next_state[row][holder] > 0){
                     next_state[row][holder] ++;
                 }
                 else {
                     next_state[row][holder]--;
+                }
+                paths.push([row, col, row, holder]);
+                holder--;
+            }
+            else if (next_state[row][holder] === -state[row][col]){ //conquer
+                if(next_state[row][holder] > 0){
+                    next_state[row][holder] ++;
+                }
+                else {
+                    next_state[row][holder]--;
+                }
+                if(turn === true){
+                    next_state[row][holder] = -Math.abs(next_state[row][holder])
+                }
+                else {
+                    next_state[row][holder] = Math.abs(next_state[row][holder])
                 }
                 paths.push([row, col, row, holder]);
                 holder--;
