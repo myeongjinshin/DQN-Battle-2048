@@ -1,4 +1,4 @@
-# AI Battle 2048 Game
+# AI Battle 2048 Game(Developing)
 Area competition with AI in the 2048 game
 
 ## Game Rules
