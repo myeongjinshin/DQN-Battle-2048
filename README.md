@@ -27,6 +27,12 @@ If **your situation** has no action to change **your** territory, you lose.
 
 If your opponent's `score` is 10 times higher than your `score`, you lose.
 
+# Quick Setup
+
+    npm install react-scripts
+    npm run build
+    node server
+
 ## Screenshots
 
 ![initial](https://user-images.githubusercontent.com/17401630/128634089-9ed78bed-4464-4c7c-a51c-3d03684d50be.png)
