@@ -6,7 +6,7 @@ This game is a modified of 2048 game.
 
 The player and the AI take turns taking one action among up, down, left, and right. 
 
-There are two types of blocks in the game: player's blocks and AI's blocks.
+There are two types of blocks in the game: **player's blocks** and **AI's blocks**.
 
 If you combine two identical blocks, you get the block of the next level.
 
@@ -23,7 +23,7 @@ The `score` for block 1 is 1. The `score` for block 2 is 2. The `score` for bloc
 This means that block i has a `score` of 2^(i-1).
 
 ### Win and lose conditions
-If `your situation` has no action to change `your` territory, you lose. 
+If **your situation** has no action to change **your** territory, you lose. 
 
 If your opponent's `score` is 10 times higher than your `score`, you lose.
 
