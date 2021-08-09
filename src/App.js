@@ -39,17 +39,16 @@ class Game extends React.Component {
       canvas : document.getElementById('canvas'),
     }
 
-    const tmp = this;
     model.onmessage = function(e) {
       const data = e.data;
       if(data["type"] === "action"){
-        const bef_state = tmp.state.history[tmp.state.index].squares;
+        const bef_state = this.state.history[this.state.index].squares;
         const bef = calculateScore(bef_state);
         const action = data["value"];
 
-        tmp.handleAction(action);
+        this.handleAction(action);
 
-        const current = tmp.state.history[tmp.state.index];
+        const current = this.state.history[this.state.index];
 
         database.push({
           "state" : bef_state,
@@ -77,16 +76,16 @@ class Game extends React.Component {
       return ;
     }
     let result = true;
-    if(event.key === "ArrowRight") {
+    if(event.key == "ArrowRight") {
       result = this.handleAction(0);
     }
-    else if(event.key === "ArrowLeft") {
+    else if(event.key == "ArrowLeft") {
       result = this.handleAction(1);
     }
-    else if(event.key === "ArrowDown") {
+    else if(event.key == "ArrowDown") {
       result = this.handleAction(2);
     }
-    else if(event.key === "ArrowUp") {
+    else if(event.key == "ArrowUp") {
       result = this.handleAction(3);
     }
     if(result === false) {
@@ -97,7 +96,7 @@ class Game extends React.Component {
   }
 
   handleAction(action) {
-    if(this.state.end === true) {
+    if(this.state.end == true) {
       return ;
     }
     const history = this.state.history.slice(0, this.state.index + 1);
@@ -107,13 +106,13 @@ class Game extends React.Component {
      //아무것도 바뀌지 않는다면 turn을 넘기지 않음.
     if(JSON.stringify(current.squares) === JSON.stringify(nxt)){
       console.log("cut", current.turn);
-      if(current.turn === false){
+      if(current.turn == false){
         console.log("roll back", action);
         model.postMessage({"type":"message", "value" : "again", "action":action, "state" : current.squares});
       }
       return false;
     }
-    let end = false;
+    const end = false;
     const [myScore, aiScore] = calculateScore(current.squares);
     if(myScore >= aiScore * 10 || myScore * 10 <= aiScore) {
       end = true;
