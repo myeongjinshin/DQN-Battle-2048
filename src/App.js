@@ -72,6 +72,7 @@ class Game extends React.Component {
 
   handleKeyboard(event){
     const current = this.state.history[this.state.index];
+    console.log(event, current.turn);
     if(current.turn === false){
       return ;
     }
@@ -162,13 +163,11 @@ class Game extends React.Component {
     const [myScore, aiScore] = calculateScore(current.squares);
     const scoreBoard = "You : "+myScore+" AI : "+aiScore;
 
-    if(this.state.end === true){
-      if(myScore >= aiScore * 10) {
-        status = "You Win!!"
-      }
-      if(myScore * 10 <= aiScore) {
-        status = "You Lose"
-      }
+    if(myScore >= aiScore * 10) {
+      status = "You Win!!"
+    }
+    if(myScore * 10 <= aiScore) {
+      status = "You Lose"
     }
 
     return (

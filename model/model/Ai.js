@@ -58,7 +58,7 @@ function predict(){
          //choose possible action
         action = possible[Math.floor(Math.random()*possible.length)];
     }
-
+    console.log("ai send action ", action);
     postMessage({
         "type": "action",
         "value": action,
