@@ -39,16 +39,17 @@ class Game extends React.Component {
       canvas : document.getElementById('canvas'),
     }
 
+    let tmp = this;
     model.onmessage = function(e) {
       const data = e.data;
       if(data["type"] === "action"){
-        const bef_state = this.state.history[this.state.index].squares;
+        const bef_state = tmp.state.history[tmp.state.index].squares;
         const bef = calculateScore(bef_state);
         const action = data["value"];
 
-        this.handleAction(action);
+        tmp.handleAction(action);
 
-        const current = this.state.history[this.state.index];
+        const current = tmp.state.history[tmp.state.index];
 
         database.push({
           "state" : bef_state,
@@ -71,10 +72,12 @@ class Game extends React.Component {
 
   handleKeyboard(event){
     const current = this.state.history[this.state.index];
+    console.log(event, current.turn);
     if(current.turn === false){
       return ;
     }
-    let result = true;
+
+    let result = true; //맵에 변화를 주는지 여부
     if(event.key == "ArrowRight") {
       result = this.handleAction(0);
     }
@@ -87,6 +90,11 @@ class Game extends React.Component {
     else if(event.key == "ArrowUp") {
       result = this.handleAction(3);
     }
+    else{ // another key -> return
+      return ;
+    }
+
+
     if(result === false) {
       return ;
     }
@@ -111,7 +119,7 @@ class Game extends React.Component {
       }
       return false;
     }
-    const end = false;
+    let end = false;
     const [myScore, aiScore] = calculateScore(current.squares);
     if(myScore >= aiScore * 10 || myScore * 10 <= aiScore) {
       end = true;
@@ -161,13 +169,11 @@ class Game extends React.Component {
     const [myScore, aiScore] = calculateScore(current.squares);
     const scoreBoard = "You : "+myScore+" AI : "+aiScore;
 
-    if(this.state.end === true){
-      if(myScore >= aiScore * 10) {
-        status = "You Win!!"
-      }
-      if(myScore * 10 <= aiScore) {
-        status = "You Lose"
-      }
+    if(myScore >= aiScore * 10) {
+      status = "You Win!!"
+    }
+    if(myScore * 10 <= aiScore) {
+      status = "You Lose"
     }
 
     return (
