@@ -101,7 +101,6 @@ function action_right(state, turn){
             if (next_state[row][holder] === 0 ){ //move
                 next_state[row][holder] = state[row][col];
                 paths.push([row, col, row, holder]);
-                holder--;
             }
             else if (next_state[row][holder] === state[row][col]){ //merge
                 if(next_state[row][holder] > 0){
