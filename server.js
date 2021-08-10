@@ -12,7 +12,7 @@ app.use(express.static('build'));
 app.use(express.static('model/model'));
 
 let replayMemory = require('./model/dataset/replay.json');
-console.log(replayMemory);
+console.log("database size : ", replayMemory.length);
 
 io.on("connection", (socket) => {
   console.log("a user connected");

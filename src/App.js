@@ -34,7 +34,7 @@ class Game extends React.Component {
         squares:initial_state,
         turn:true, //my turn
       }],
-      end : false,
+      winner : null,
       index : 0,
       canvas : document.getElementById('canvas'),
     }
@@ -43,21 +43,39 @@ class Game extends React.Component {
     model.onmessage = function(e) {
       const data = e.data;
       if(data["type"] === "action"){
+        console.log("action", data["value"], tmp.state.winner);
+        if(tmp.state.winner != null){
+          return ;
+        }
         const bef_state = tmp.state.history[tmp.state.index].squares;
-        const bef = calculateScore(bef_state);
+        const [player_bef, ai_bef] = calculateScore(bef_state);
         const action = data["value"];
 
         tmp.handleAction(action);
 
-        const current = tmp.state.history[tmp.state.index];
+        const current = tmp.state.history[tmp.state.index].squares;
+        const [player_aft, ai_aft] = calculateScore(current);
 
+        const reward = (ai_aft - player_aft) - (ai_bef - player_bef);
+        console.log("reward = ", reward);
         database.push({
           "state" : bef_state,
           "action" : action,
-          "reward" : 100,
+          "reward" : reward,
           "next_state" : current,
           "done" : false
         });
+
+      }
+      else if(data["type"] === "message") {
+        if(data["value"] === "lose") {
+          
+          console.log(database);
+          socket.emit("database", database);
+          tmp.setState({
+            winner:true,
+          });
+        }
       }
     }
 
@@ -72,22 +90,21 @@ class Game extends React.Component {
 
   handleKeyboard(event){
     const current = this.state.history[this.state.index];
-    console.log(event, current.turn);
-    if(current.turn === false){
+    if(current.turn === false || this.state.winner != null){
       return ;
     }
 
     let result = true; //맵에 변화를 주는지 여부
-    if(event.key == "ArrowRight") {
+    if(event.key === "ArrowRight") {
       result = this.handleAction(0);
     }
-    else if(event.key == "ArrowLeft") {
+    else if(event.key === "ArrowLeft") {
       result = this.handleAction(1);
     }
-    else if(event.key == "ArrowDown") {
+    else if(event.key === "ArrowDown") {
       result = this.handleAction(2);
     }
-    else if(event.key == "ArrowUp") {
+    else if(event.key === "ArrowUp") {
       result = this.handleAction(3);
     }
     else{ // another key -> return
@@ -99,11 +116,13 @@ class Game extends React.Component {
       return ;
     }
     const nxt = this.state.history[this.state.index].squares;
-    setTimeout(() => model.postMessage({"type":"state", "state":nxt}), 1000);
+    if(this.state.winner === null) {
+      setTimeout(() => model.postMessage({"type":"state", "state":nxt}), 1000);
+    }
   }
 
   handleAction(action) {
-    if(this.state.end == true) {
+    if(this.state.winner != null) {
       return ;
     }
     const history = this.state.history.slice(0, this.state.index + 1);
@@ -119,10 +138,19 @@ class Game extends React.Component {
       }
       return false;
     }
-    let end = false;
-    const [myScore, aiScore] = calculateScore(current.squares);
-    if(myScore >= aiScore * 10 || myScore * 10 <= aiScore) {
-      end = true;
+    let winner = null;
+    const [myScore, aiScore] = calculateScore(nxt);
+    if(myScore >= aiScore * 10) {
+      winner = true;
+    }
+    else if (myScore * 10 <= aiScore) {
+      winner = false;
+      if(current.turn === false){
+        database[database.length-1]["reward"] += 300;
+      }
+    }
+    if (winner === true){
+      socket.emit("database", database);
     }
     this.setState({
       history: history.concat([{
@@ -130,7 +158,7 @@ class Game extends React.Component {
         turn:!current.turn,
       }]),
       index: this.state.index+1,
-      end:end,
+      winner:winner,
     });
     animationPath(this.canvasRef.current, current.squares, paths, nxt);
     return true;
@@ -169,10 +197,10 @@ class Game extends React.Component {
     const [myScore, aiScore] = calculateScore(current.squares);
     const scoreBoard = "You : "+myScore+" AI : "+aiScore;
 
-    if(myScore >= aiScore * 10) {
+    if(this.state.winner === true) {
       status = "You Win!!"
     }
-    if(myScore * 10 <= aiScore) {
+    else if(this.state.winner === false) {
       status = "You Lose"
     }
 
