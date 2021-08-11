@@ -22,7 +22,7 @@ io.on("connection", (socket) => {
 
     fs.writeFile ("./model/dataset/replay.json", JSON.stringify(replayMemory), function(err) {
       if (err) throw err;
-        console.log('save complete');
+        console.log('save complete. data size = ', replayMemory.length);
       }
     );
 

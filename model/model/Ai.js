@@ -43,18 +43,25 @@ onmessage = function(e) {
 }
 
 function predict(){
+
+    if(possible.length == 0){
+        console.log("model can't do anything");
+        postMessage({
+            "type": "message",
+            "value": "lose",
+        });
+        return ;
+    }
+
     const prediction = model.predict(tf.tensor([state])).dataSync();
-    action = prediction.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
+    console.log("predict : ", prediction);
+
+    action = possible.reduce((i, j) => prediction[i]>prediction[j]?i:j);
+    console.log("ai action : ", action);
+
+    //action = prediction.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
 
     if (Math.random() < 1) { //fully randomize
-        
-        if(possible.length == 0){
-            postMessage({
-                "type": "message",
-                "value": "lose",
-            });
-            return ;
-        }
          //choose possible action
         action = possible[Math.floor(Math.random()*possible.length)];
     }

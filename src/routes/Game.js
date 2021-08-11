@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import './Game.css'
 import io, { protocol } from "socket.io-client";
-import { calcResult } from "../components/Logic.js";
+import { calcResult, calculateScore, isStuck } from "../components/Logic.js";
 import { drawState , animationPath } from "../components/Drawing.js";
+import { record, finishRecord } from "../components/Recorder";
 
 
 //design : https://codepen.io/saninmersion/pen/xWqaxJ
@@ -43,38 +44,16 @@ class Game extends React.Component {
     model.onmessage = function(e) {
       const data = e.data;
       if(data["type"] === "action"){
-        console.log("action", data["value"], tmp.state.winner);
         if(tmp.state.winner != null){
           return ;
         }
-        const bef_state = tmp.state.history[tmp.state.index].squares;
-        const [player_bef, ai_bef] = calculateScore(bef_state);
         const action = data["value"];
+        const ret = tmp.handleAction(action);
 
-        tmp.handleAction(action);
-
-        const current = tmp.state.history[tmp.state.index].squares;
-        const [player_aft, ai_aft] = calculateScore(current);
-
-        const reward = (ai_aft - player_aft) - (ai_bef - player_bef);
-        console.log("reward = ", reward);
-        database.push({
-          "state" : bef_state,
-          "action" : action,
-          "reward" : reward,
-          "next_state" : current,
-          "done" : false
-        });
-
-      }
-      else if(data["type"] === "message") {
-        if(data["value"] === "lose") {
-          
-          console.log(database);
-          socket.emit("database", database);
-          tmp.setState({
-            winner:true,
-          });
+        if(ret === false){
+          const current = tmp.state.history[this.state.index];
+          console.log("roll back", action);
+          model.postMessage({"type":"message", "value" : "again", "action":data["value"], "state" : current.squares});
         }
       }
     }
@@ -132,26 +111,29 @@ class Game extends React.Component {
      //아무것도 바뀌지 않는다면 turn을 넘기지 않음.
     if(JSON.stringify(current.squares) === JSON.stringify(nxt)){
       console.log("cut", current.turn);
-      if(current.turn == false){
-        console.log("roll back", action);
-        model.postMessage({"type":"message", "value" : "again", "action":action, "state" : current.squares});
-      }
       return false;
     }
+
+    record(current.squares, action, nxt, current.turn);
+
     let winner = null;
     const [myScore, aiScore] = calculateScore(nxt);
+
+    if(isStuck(nxt, !current.turn)){
+      winner = current.turn;
+    }
     if(myScore >= aiScore * 10) {
       winner = true;
     }
     else if (myScore * 10 <= aiScore) {
       winner = false;
-      if(current.turn === false){
-        database[database.length-1]["reward"] += 300;
-      }
     }
-    if (winner === true){
+
+    if(winner != null){
+      database = finishRecord(winner);
       socket.emit("database", database);
     }
+
     this.setState({
       history: history.concat([{
         squares:nxt,
@@ -160,6 +142,7 @@ class Game extends React.Component {
       index: this.state.index+1,
       winner:winner,
     });
+
     animationPath(this.canvasRef.current, current.squares, paths, nxt);
     return true;
   }
@@ -219,20 +202,6 @@ class Game extends React.Component {
       </div>
     );
   }
-}
-
-
-function calculateScore(state){
-  let myScore = 0, aiScore = 0;
-  for(let i = 0;i<state.length;i++){
-    if(state[i] > 0){
-      aiScore += Math.pow(2, state[i]-1);
-    }
-    else if(state[i] < 0){
-      myScore += Math.pow(2, -state[i]-1);
-    }
-  }
-  return [myScore, aiScore];
 }
 
 export default Game;

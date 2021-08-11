@@ -159,3 +159,28 @@ function action_right(state, turn){
     }
     return [paths, next_state];
 }
+
+export function calculateScore(state){
+    let myScore = 0, aiScore = 0;
+    for(let i = 0;i<state.length;i++){
+      if(state[i] > 0){
+        aiScore += Math.pow(2, state[i]-1);
+      }
+      else if(state[i] < 0){
+        myScore += Math.pow(2, -state[i]-1);
+      }
+    }
+    return [myScore, aiScore];
+}
+
+export function isStuck(state, turn){
+    let ret = true;
+    for(let i=0;i<4;i++){
+        const [_path, nxt] = calcResult(state, i, turn);
+        if(JSON.stringify(state) != JSON.stringify(nxt)) {
+            ret = false;
+            break;
+        }
+    }
+    return ret;
+}

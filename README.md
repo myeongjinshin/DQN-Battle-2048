@@ -30,6 +30,7 @@ If your opponent's `score` is 10 times higher than your `score`, you lose.
 # Quick Setup
 
     npm install react-scripts
+    npm install react-router-dom
     npm run build
     node server
 
