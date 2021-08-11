@@ -10,9 +10,9 @@ function Profile() {
     }
 
     return (
-        <>
+        <center>
             <button onClick={onLogOutClick}>Log Out</button>
-        </>
+        </center>
     );
 }
 
