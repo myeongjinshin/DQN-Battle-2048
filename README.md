@@ -23,7 +23,7 @@ The `score` for block 1 is 1. The `score` for block 2 is 2. The `score` for bloc
 This means that block i has a `score` of 2^(i-1).
 
 ### Win and lose conditions
-If **your situation** has no action to change **your** territory, you lose. 
+If there is no action to change the state, the player with the highest `score` wins.
 
 If your opponent's `score` is 10 times higher than your `score`, you lose.
 

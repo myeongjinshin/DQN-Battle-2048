@@ -1,7 +1,10 @@
-const map_size = 5;
-const padding = 15;
-const square_round = 10;
+var constants = require("../helpers/Constants.js");
 
+const map_size = constants.map_size;
+const padding = constants.block_padding;
+const square_round = constants.block_round;
+const aiTextColor = constants.ai_text_color;
+const playerTextColor = constants.player_text_color;
 
 CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, radius) {
     if (width < 2 * radius) radius = width / 2;
@@ -44,6 +47,9 @@ export function drawState(canvas, state){
     const square_size = ( canvas.width - padding * (map_size+1) ) / map_size;
   
     //drawing grid
+    ctx.rect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle="#00b4d8";
+    ctx.fill()
     drawGrid(canvas);
   
     //drawing squares
@@ -61,14 +67,15 @@ export function drawState(canvas, state){
             if(state[i*map_size + j] < 0) { //음수가 플레이어
                 ctx.fillStyle = '#'+playerColor[-state[i*map_size + j]];
                 ctx.fill();
-                ctx.fillStyle = "rgb(255,255,255)";
+                ctx.fillStyle = playerTextColor;
                 ctx.fillText(-state[i*map_size + j],x+square_size/2,y+square_size/2+17);
             }
             else {
                 ctx.fillStyle = '#'+aiColor[state[i*map_size + j]];
                 ctx.fill();
-                ctx.fillStyle = "rgb(255,255,255)";
+                ctx.fillStyle = aiTextColor;
                 ctx.fillText(state[i*map_size + j],x+square_size/2,y+square_size/2+17);
+
             }
         }
     }
@@ -110,13 +117,13 @@ export function animationPath(canvas, state, paths, next_state) {
             if(val < 0) { //음수가 플레이어
                 ctx.fillStyle = '#'+playerColor[-val];
                 ctx.fill();
-                ctx.fillStyle = "rgb(255,255,255)";
+                ctx.fillStyle = playerTextColor;
                 ctx.fillText(-val,x+square_size/2,y+square_size/2+17);
             }
             else {
                 ctx.fillStyle = '#'+aiColor[val];
                 ctx.fill();
-                ctx.fillStyle = "rgb(255,255,255)";
+                ctx.fillStyle = aiTextColor;
                 ctx.fillText(val,x+square_size/2,y+square_size/2+17);
             }
         }

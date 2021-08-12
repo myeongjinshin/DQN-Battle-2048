@@ -6,6 +6,9 @@ import tensorflowjs as tfjs
 import numpy as np
 import json
 import random
+import os
+
+os.environ["KERAS_BACKEND"] = "plaidml.keras.backend"
 
 
 class DQNAgent:
@@ -122,7 +125,7 @@ if __name__ == "__main__":
     agent = DQNAgent()
 
     if len(agent.memory) >= agent.train_start:
-        for i in range(5000) :
+        for i in range(10000) :
             if i % 100 == 99 :
                 print((i+1)//100,"% done... epsilon : ", agent.epsilon)
             agent.train_model()
