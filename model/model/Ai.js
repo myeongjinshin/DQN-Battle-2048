@@ -12,8 +12,6 @@ let possible = [0, 1, 2, 3]
 
 async function loadModel() {
     model = await tf.loadLayersModel("http://localhost:8000/model.json");
-    const prediction = model.predict(tf.tensor([state]));
-    prediction.print();
 }
 
 onmessage = function(e) {
@@ -52,8 +50,8 @@ function predict(){
         });
         return ;
     }
-
-    const prediction = model.predict(tf.tensor([state])).dataSync();
+    const input = convert(state);
+    const prediction = model.predict(tf.tensor([input])).dataSync();
     console.log("predict : ", prediction);
 
     action = possible.reduce((i, j) => prediction[i]>prediction[j]?i:j);
@@ -61,7 +59,7 @@ function predict(){
 
     //action = prediction.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
 
-    if (Math.random() < 1) { //fully randomize
+    if (Math.random() < 0.08) {
          //choose possible action
         action = possible[Math.floor(Math.random()*possible.length)];
     }
@@ -80,4 +78,18 @@ function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
+}
+
+
+function convert(state){
+    let ret = Array(map_size * map_size * 2).fill(0);
+    for(let i=0;i<map_size * map_size;i++){
+        if(state[i] > 0){
+            ret[i] = state[i];
+        }
+        else if(state[i] < 0){
+            ret[i+map_size*map_size] = -state[i];
+        }
+    }
+    return ret;
 }

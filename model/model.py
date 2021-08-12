@@ -46,7 +46,7 @@ class DQNAgent:
 
     def build_model(self):
         model = keras.models.Sequential()
-        model.add(layers.Dense(24, input_dim=self.state_size, activation="sigmoid", kernel_initializer="he_uniform"))
+        model.add(layers.Dense(24, input_dim=self.state_size*2, activation="sigmoid", kernel_initializer="he_uniform"))
         model.add(layers.Dense(24, activation="relu", kernel_initializer="he_uniform"))
         model.add(layers.Dense(24, activation="relu", kernel_initializer="he_uniform"))
         model.add(
@@ -91,8 +91,8 @@ class DQNAgent:
         # 메모리에서 배치 크기만큼 무작위로 샘플 추출
         mini_batch = random.sample(self.memory, self.batch_size)
 
-        states = np.zeros((self.batch_size, self.state_size))
-        next_states = np.zeros((self.batch_size, self.state_size))
+        states = np.zeros((self.batch_size, self.state_size*2))
+        next_states = np.zeros((self.batch_size, self.state_size*2))
         actions, rewards, dones = [], [], []
 
         for i in range(self.batch_size):
@@ -122,7 +122,9 @@ if __name__ == "__main__":
     agent = DQNAgent()
 
     if len(agent.memory) >= agent.train_start:
-        for i in range(50) :
+        for i in range(5000) :
+            if i % 100 == 99 :
+                print((i+1)//100,"% done... epsilon : ", agent.epsilon)
             agent.train_model()
     agent.model.save_weights("./history/"+agent.model_name)
     tfjs.converters.save_keras_model(agent.model, "./history")

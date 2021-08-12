@@ -1,14 +1,14 @@
 {
     "map_width" : 5,
     "load_model" : false,
-    "model_name" : "model_0810_2233.h5",
+    "model_name" : "model_0812_1213.h5",
     "discount_factor" : 0.99,
     "learning_rate" : 0.001,
     "epsilon" : 1.0,
-    "epsilon_decay" : 0.999,
+    "epsilon_decay" : 0.9995,
     "epsilon_min" : 0.01,
-    "batch_size" : 64,
-    "train_start" : 150,
+    "batch_size" : 32,
+    "train_start" : 600,
     "max_memory" : 10000,
     "initial" : {
         "map_width" : 5,
