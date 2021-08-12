@@ -46,7 +46,7 @@ export function finishRecord(winner, turn)
     }
     else {
         const i = database.length-1;
-        const [_player, ai] = calculateScore(database[i]["state"]);
+        const [player, ai] = calculateScore(database[i]["state"]);
         database[i]["reward"] = (ai - player + 300);
         database[i]["done"] = true;
     }
