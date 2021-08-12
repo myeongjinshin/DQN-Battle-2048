@@ -40,14 +40,14 @@ export function finishRecord(winner, turn)
 {
     if (winner == true) {
         const i = database.length-1;
-        const [_player, ai] = calculateScore(database[i]["state"]);
-        database[i]["reward"] = -(ai/2 + 300);
+        const [player, ai] = calculateScore(database[i]["state"]);
+        database[i]["reward"] = -(player - ai + 300);
         database[i]["done"] = true;
     }
     else {
         const i = database.length-1;
         const [_player, ai] = calculateScore(database[i]["state"]);
-        database[i]["reward"] = (ai/2 + 300);
+        database[i]["reward"] = (ai - player + 300);
         database[i]["done"] = true;
     }
     for(let i=0;i<database.length;i++){

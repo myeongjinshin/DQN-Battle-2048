@@ -5,18 +5,15 @@ import { calcResult, calculateScore, isStuck } from "../components/Logic.js";
 import { drawState , animationPath } from "../components/Drawing.js";
 import { record, finishRecord } from "../components/Recorder";
 
-
-//design : https://codepen.io/saninmersion/pen/xWqaxJ
-
+var constants = require("../helpers/Constants.js");
 
 const socket = io();
 
 const model = new Worker('Ai.js');
-console.log("starting");
 model.postMessage({"type":"message", "value":"start"});
 
 let database = [];
-const map_size = 5;
+const map_size = constants.map_size;
 
 class Game extends React.Component {
 
@@ -95,7 +92,6 @@ class Game extends React.Component {
       return ;
     }
 
-
     if(result === false) {
       return ;
     }
@@ -125,7 +121,15 @@ class Game extends React.Component {
     const [myScore, aiScore] = calculateScore(nxt);
 
     if(isStuck(nxt, !current.turn)){
-      winner = current.turn;
+      if(myScore > aiScore) {
+        winner = true;
+      }
+      else if(myScore < aiScore) {
+        winner = false;
+      }
+      else{
+        winner = current.turn;
+      }
     }
     if(myScore >= aiScore * 10) {
       winner = true;
