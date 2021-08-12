@@ -31,6 +31,7 @@ If your opponent's `score` is 10 times higher than your `score`, you lose.
 
     npm install react-scripts
     npm install react-router-dom
+    npm install firebase/app
     npm run build
     node server
 
