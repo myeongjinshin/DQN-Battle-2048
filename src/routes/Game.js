@@ -10,7 +10,7 @@ var constants = require("../helpers/Constants.js");
 const socket = io();
 
 const model = new Worker('Ai.js');
-model.postMessage({"type":"message", "value":"start"});
+model.postMessage({"type":"message", "value":"start", "random":0.08});
 
 let database = [];
 const map_size = constants.map_size;

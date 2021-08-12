@@ -7,7 +7,8 @@ state[map_size-1] = 1; // AI
 state[map_size * (map_size-1)] = -1; //Player
 
 
-let possible = [0, 1, 2, 3]
+let possible = [0, 1, 2, 3];
+let random_per = 1; 
 
 
 async function loadModel() {
@@ -18,6 +19,7 @@ onmessage = function(e) {
     const data = e.data;
     if (data["type"] === "message") {
         if (data["value"] === "start") {
+            random_per = data["random"];
             loadModel();
         }
         else if(data["value"] === "again"){
@@ -59,7 +61,7 @@ function predict(){
 
     //action = prediction.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
 
-    if (Math.random() < 0.08) {
+    if (Math.random() < random_per) {
          //choose possible action
         action = possible[Math.floor(Math.random()*possible.length)];
     }
