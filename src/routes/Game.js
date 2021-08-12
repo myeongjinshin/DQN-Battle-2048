@@ -92,7 +92,6 @@ class Game extends React.Component {
       return ;
     }
 
-
     if(result === false) {
       return ;
     }
