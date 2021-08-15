@@ -24,15 +24,19 @@ function App() {
     console.log(isLoggedIn);
   }, []);
 
-  return (
-    <HashRouter>
-      {init?<Navigation isLoggedIn={isLoggedIn}></Navigation>:"initializing.."}
-      <Route path="/" exact={true} component={Home} />
-      <PrivateRoute path="/game" component={Game} />
-      <Route path="/auth" component={Auth} />
-      <PrivateRoute path="/profile" component={Profile} />
-    </HashRouter>
-  );
+  if(!init) {
+    return "initializing...";
+  } else {
+    return (
+      <HashRouter>
+        <Navigation isLoggedIn={isLoggedIn}></Navigation>
+        <Route path="/" exact={true} component={Home} />
+        <PrivateRoute path="/game" component={Game} />
+        <Route path="/auth" component={Auth} />
+        <PrivateRoute path="/profile" component={Profile} />
+      </HashRouter>
+    );
+  } 
 }
 
 export default App;
