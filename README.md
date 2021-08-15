@@ -33,6 +33,7 @@ In **Stuct state**, the player with the highest `score` wins. If the `score` is 
     npm install react-scripts
     npm install react-router-dom
     npm install firebase/app
+    npm install react-google-login
     npm run build
     node server
 

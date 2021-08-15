@@ -12,7 +12,7 @@ let random_per = 1;
 
 
 async function loadModel() {
-    model = await tf.loadLayersModel("http://34.122.134.133:8000/model.json");
+    model = await tf.loadLayersModel("http://localhost:8000/model.json");
 }
 
 onmessage = function(e) {
