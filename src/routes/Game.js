@@ -14,6 +14,7 @@ model.postMessage({"type":"message", "value":"start", "random":0.08});
 
 let database = [];
 const map_size = constants.map_size;
+let pause = false;
 
 class Game extends React.Component {
 
@@ -71,7 +72,7 @@ class Game extends React.Component {
 
   handleKeyboard(event){
     const current = this.state.history[this.state.index];
-    if(current.turn === false || this.state.winner != null){
+    if(current.turn === false || this.state.winner != null || pause){
       return ;
     }
 
@@ -97,6 +98,8 @@ class Game extends React.Component {
     }
     const nxt = this.state.history[this.state.index].squares;
     if(this.state.winner === null) {
+      pause = true;
+      setTimeout(disablePause, 1500);
       setTimeout(() => model.postMessage({"type":"state", "state":nxt}), 1000);
     }
   }
@@ -211,6 +214,10 @@ class Game extends React.Component {
       </div>
     );
   }
+}
+
+function disablePause() {
+  pause = false;
 }
 
 export default Game;
