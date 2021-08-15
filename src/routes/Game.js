@@ -1,6 +1,6 @@
-import React, {Component} from "react";
+import React from "react";
 import './Game.css'
-import io, { protocol } from "socket.io-client";
+import io from "socket.io-client";
 import { calcResult, calculateScore, isStuck } from "../components/Logic.js";
 import { drawState , animationPath } from "../components/Drawing.js";
 import { record, finishRecord } from "../components/Recorder";

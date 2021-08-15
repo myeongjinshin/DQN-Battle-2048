@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router";
 import { authService } from "../fbase";
 
-function Profile() {
+const Profile = ({userObj}) => {
     const history = useHistory();
     const onLogOutClick = () => {
         authService.signOut();
@@ -11,6 +11,7 @@ function Profile() {
 
     return (
         <center>
+            <h1>{userObj.uid}</h1>
             <button onClick={onLogOutClick}>Log Out</button>
         </center>
     );
