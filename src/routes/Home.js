@@ -1,5 +1,5 @@
 import React from "react";
-import './Game.css'
+import './Home.css'
 import { calcResult, calculateScore, isStuck } from "../components/Logic.js";
 import { drawState , animationPath } from "../components/Drawing.js";
 
@@ -9,7 +9,7 @@ const model1 = new Worker('Ai.js');
 model1.postMessage({"type":"message", "value":"start", "random": 0.08});
 
 const model2 = new Worker('Ai.js');
-model2.postMessage({"type":"message", "value":"start", "random": 1});
+model2.postMessage({"type":"message", "value":"start", "random": 0});
 
 const map_size = constants.map_size;
 
@@ -167,15 +167,15 @@ class Home extends React.Component {
     }
 
     return (
-      <div className="game">
-        <h1 className="game-title">
+      <div className="home-game">
+        <h1 className="home-game-title">
           <div>{status}</div>
         </h1>
-        <h1 className="game-score">
+        <h1 className="home-game-score">
           <div>{scoreBoard}</div>
         </h1>
-        <canvas ref={this.canvasRef} width={'500'} height={'500'}></canvas>
-        <h1 className="game-info">
+        <canvas ref={this.canvasRef} width={'500'} height={'500'} id="home-canvas"></canvas>
+        <h1 className="home-game-info">
           <div>{message}</div>
         </h1>
       </div>
