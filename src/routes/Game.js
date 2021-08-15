@@ -4,6 +4,7 @@ import io from "socket.io-client";
 import { calcResult, calculateScore, isStuck } from "../components/Logic.js";
 import { drawState , animationPath } from "../components/Drawing.js";
 import { record, finishRecord } from "../components/Recorder";
+import { dbService } from "../fbase";
 
 var constants = require("../helpers/Constants.js");
 
@@ -99,7 +100,7 @@ class Game extends React.Component {
     const nxt = this.state.history[this.state.index].squares;
     if(this.state.winner === null) {
       pause = true;
-      setTimeout(disablePause, 1500);
+      setTimeout(disablePause, 1400);
       setTimeout(() => model.postMessage({"type":"state", "state":nxt}), 1000);
     }
   }
@@ -142,6 +143,13 @@ class Game extends React.Component {
     }
 
     if(winner != null){
+      dbService.collection("game_record").add({
+        winner: winner,
+        myScore: myScore,
+        aiScore: aiScore, 
+        endedAt: Date.now(),
+        userUid: this.props.userObj.uid,
+      });
       database = finishRecord(winner);
       socket.emit("database", database);
     }

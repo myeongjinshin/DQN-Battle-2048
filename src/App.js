@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { HashRouter, Route } from "react-router-dom";
+import { HashRouter as Router, Route } from "react-router-dom";
 import Home from "./routes/Home";
 import Game from "./routes/Game";
+import List from "./routes/List";
 import Auth from "./routes/Auth";
 import Profile from "./routes/Profile";
 import Navigation from "./components/Navigation";
@@ -30,13 +31,15 @@ function App() {
     return "initializing...";
   } else {
     return (
-      <HashRouter>
+      <Router>
         <Navigation isLoggedIn={isLoggedIn}></Navigation>
         <Route path="/" exact={true} component={Home} />
         <PrivateRoute path="/game" component={Game} isLoggedIn={isLoggedIn} userObj={userObj}/>
+        <PrivateRoute exact={true} path="/list" component={List} />
+        <PrivateRoute path="/list/:id" component={Game} isLoggedIn={isLoggedIn} userObj={userObj}/>
         <Route path="/auth" component={Auth} />
         <PrivateRoute path="/profile" component={Profile} isLoggedIn={isLoggedIn} userObj={userObj}/>
-      </HashRouter>
+      </Router>
     );
   } 
 }
