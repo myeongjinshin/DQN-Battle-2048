@@ -12,7 +12,7 @@ let random_per = 1;
 
 
 async function loadModel() {
-    model = await tf.loadLayersModel("http://34.122.134.133:8000/model.json");
+    model = await tf.loadLayersModel("http://localhost:8000/model.json");
 }
 
 onmessage = function(e) {
@@ -54,7 +54,6 @@ function predict(){
     }
     const input = convert(state);
     const prediction = model.predict(tf.tensor([input])).dataSync();
-    console.log("predict : ", prediction);
 
     action = possible.reduce((i, j) => prediction[i]>prediction[j]?i:j);
     console.log("ai action : ", action);
