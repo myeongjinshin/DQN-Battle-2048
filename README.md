@@ -29,11 +29,7 @@ If there is no action to change the state, the state called **Stuck state**.
 In **Stuct state**, the player with the highest `score` wins. If the `score` is the same, the person who made `Stuck state` is win.
 
 # Quick Setup
-
-    npm install react-scripts
-    npm install react-router-dom
-    npm install firebase/app
-    npm install react-google-login
+    yarn install
     npm run build
     node server
 

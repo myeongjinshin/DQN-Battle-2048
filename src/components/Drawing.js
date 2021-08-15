@@ -3,8 +3,6 @@ var constants = require("../helpers/Constants.js");
 const map_size = constants.map_size;
 const padding = constants.block_padding;
 const square_round = constants.block_round;
-const aiTextColor = constants.ai_text_color;
-const playerTextColor = constants.player_text_color;
 
 CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, radius) {
     if (width < 2 * radius) radius = width / 2;
@@ -19,8 +17,10 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, ra
     return this;
 }
 
-const playerColor = ["ffba08", "faa307", "f48c06", "e85d04", "dc2f02", "d00000", "9d0208", "6a040f", "370617", "03071e"];
-const aiColor = ["fbc1fa", "f56ff3", "f34df0", "f12ced", "ea0fe6", "c90cc5", "a70aa4", "860883", "640662", "430441"];
+const playerColor = ["_", "ede0c8", "ede1c8", "eeb27d", "f29767", "f37c62", "f26140", "ebce74", "edcb67", "ebc85b", "e7c359", "e9be4f"];
+const playerTextColor = ["_", "#796c65", "#796c65", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"];
+const aiColor = ["_", "D5D8DC", "ABB2B9", "808B96", "566573", "2C3E50", "273746", "212F3D", "1C2833", "17202A", "060E18"];
+const aiTextColor = ["_", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"];
 
 function drawGrid(canvas){
     const ctx = canvas.getContext('2d');
@@ -33,7 +33,7 @@ function drawGrid(canvas){
         const y = padding * (i + 1) + square_size * i;
   
         ctx.roundRect(x, y, square_size, square_size, square_round);
-        ctx.fillStyle = 'rgba(100, 223, 223, 1)';
+        ctx.fillStyle = "#cdc1b5";
         ctx.fill();
       }
     }
@@ -48,7 +48,7 @@ export function drawState(canvas, state){
   
     //drawing grid
     ctx.rect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle="#00b4d8";
+    ctx.fillStyle="#bbaca1";
     ctx.fill()
     drawGrid(canvas);
   
@@ -67,15 +67,14 @@ export function drawState(canvas, state){
             if(state[i*map_size + j] < 0) { //음수가 플레이어
                 ctx.fillStyle = '#'+playerColor[-state[i*map_size + j]];
                 ctx.fill();
-                ctx.fillStyle = playerTextColor;
+                ctx.fillStyle = playerTextColor[-state[i*map_size + j]];
                 ctx.fillText(-state[i*map_size + j],x+square_size/2,y+square_size/2+17);
             }
             else {
                 ctx.fillStyle = '#'+aiColor[state[i*map_size + j]];
                 ctx.fill();
-                ctx.fillStyle = aiTextColor;
+                ctx.fillStyle = aiTextColor[state[i*map_size + j]];
                 ctx.fillText(state[i*map_size + j],x+square_size/2,y+square_size/2+17);
-
             }
         }
     }
@@ -98,7 +97,7 @@ export function animationPath(canvas, state, paths, next_state) {
             const x = padding * (col + 1) + square_size * col;
             const y = padding * (row + 1) + square_size * row;
             ctx.roundRect(x, y, square_size, square_size, square_round);
-            ctx.fillStyle = "#00b4d8";
+            ctx.fillStyle = "#bbaca1";
             ctx.fill();
         }
         drawGrid(canvas);
@@ -117,13 +116,13 @@ export function animationPath(canvas, state, paths, next_state) {
             if(val < 0) { //음수가 플레이어
                 ctx.fillStyle = '#'+playerColor[-val];
                 ctx.fill();
-                ctx.fillStyle = playerTextColor;
+                ctx.fillStyle = playerTextColor[-val];
                 ctx.fillText(-val,x+square_size/2,y+square_size/2+17);
             }
             else {
                 ctx.fillStyle = '#'+aiColor[val];
                 ctx.fill();
-                ctx.fillStyle = aiTextColor;
+                ctx.fillStyle = aiTextColor[val];
                 ctx.fillText(val,x+square_size/2,y+square_size/2+17);
             }
         }

@@ -8,6 +8,4 @@ function define(name, value) {
 define("map_size", 5);
 define("block_padding", 15);
 define("block_round", 10);
-define("ai_text_color", "#fff8f7");
-define("player_text_color", "#ffffff");
 
