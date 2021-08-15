@@ -99,7 +99,7 @@ class Game extends React.Component {
     const nxt = this.state.history[this.state.index].squares;
     if(this.state.winner === null) {
       pause = true;
-      setTimeout(disablePause, 1500);
+      setTimeout(disablePause, 1400);
       setTimeout(() => model.postMessage({"type":"state", "state":nxt}), 1000);
     }
   }
