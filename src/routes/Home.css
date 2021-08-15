@@ -1,0 +1,98 @@
+body {
+    margin: 20px;
+    padding: 0;
+    font-family: sans-serif;
+    font: 14px;
+    background: linear-gradient(0deg, #ffffff, #ffffff, #ffffff);
+  }
+  
+  ol, ul {
+    padding-left: 30px;
+  }
+  
+  
+  .status {
+    margin-bottom: 10px;
+  }
+  
+  .home-game-title {
+    background: transparent;
+    text-align: center;
+    font-size: 50px;
+    color: #fff;
+    min-height: 50px;
+  }
+  
+  .home-game-score {
+    background: transparent;
+    text-align: center;
+    color: #fff;
+    min-height: 50px;
+    margin-top : -7%;
+  }
+  
+  
+  .home-game-info {
+    margin-bottom: 20px;
+    background: transparent;
+    padding: 7px;
+    text-align: center;
+    color: #fff;
+    min-height: 100px;
+    border-radius: 7px;
+  }
+  
+  
+  .info {
+    display: block;
+    margin-top: 15px;
+  }
+  
+  .square:focus {
+    outline: none;
+  }
+  
+  .kbd-navigation .square:focus {
+    background: #ddd;
+  }
+  
+  .home-game {
+    min-width: 450px;
+    width: 25%;
+    margin: 0 auto;
+    padding: 10px;
+    background: #00b4d8;
+    border-radius: 5%;
+    margin-top: 5vh;
+    display: flex;
+    flex-direction: column;
+    float: left;
+  }
+  
+  
+  .board{
+    margin: auto;
+    padding-left : 13%;
+  }
+  
+  .board-row:after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+  
+  
+  
+  .cell {
+    border: 2px solid #caf0f8;
+    border-radius: 10%;
+    margin : 2px;
+    float: left;
+    text-align: center;
+    width : 16%;
+    height: 65px;
+    cursor: pointer;
+    color: #333333;
+    font-size: 250%;
+    font-weight: bold;
+  }
