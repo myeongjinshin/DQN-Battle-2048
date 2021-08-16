@@ -32,6 +32,7 @@ function App() {
   } else {
     return (
       <Router>
+        <img src="http://localhost:8000/images/logo.png" height="100"></img>
         <Navigation isLoggedIn={isLoggedIn}></Navigation>
         <Route path="/" exact={true} component={Home} />
         <PrivateRoute path="/game" component={Game} isLoggedIn={isLoggedIn} userObj={userObj}/>
