@@ -17,6 +17,7 @@ let database = [];
 const map_size = constants.map_size;
 let pause = false;
 
+
 class Game extends React.Component {
 
   constructor(props){
@@ -29,6 +30,15 @@ class Game extends React.Component {
     initial_state[map_size-1] = 1; // AI
     initial_state[map_size * (map_size-1)] = -1; //Player
 
+    let w = window.innerWidth;
+    let canvasWidth = 500;
+    if (w<=600) {
+      canvasWidth = w * 500/600;
+    }
+    this.setState({
+      canvasWidth : canvasWidth
+    });
+
     this.state = {
       history:[{
         squares:initial_state,
@@ -37,6 +47,8 @@ class Game extends React.Component {
       winner : null,
       index : 0,
       canvas : document.getElementById('canvas'),
+      canvasWidth : canvasWidth,
+      canvasHeight: canvasWidth
     }
 
     let tmp = this;
@@ -63,12 +75,46 @@ class Game extends React.Component {
             e.preventDefault();
         }
     }, false);
+    window.addEventListener('resize', (e)=>this.handleResize(e));
 
   }
+
+  handleResize(){
+    let w = window.innerWidth;
+    let canvasWidth = 500, titleSize = 50, infoSize = 40, scoreSize = 30;
+    if (w<=600) {
+      canvasWidth = Math.floor(w * 500/600);
+    }
+    if(w<=400){
+      titleSize = Math.round(50 * w/400);
+      infoSize = Math.round(40 * w/400);
+      scoreSize = Math.round(30 * w/400);
+    }
+    document.getElementById("game-title").style.fontSize = titleSize+"px";
+    document.getElementById("game-info").style.fontSize = infoSize+"px";
+    document.getElementById("game-score").style.fontSize = scoreSize+"px";
+    this.setState({
+      canvasWidth : canvasWidth,
+      canvasHeight : canvasWidth,
+    });
+
+    drawState(this.canvasRef.current, this.state.history[this.state.index].squares);
+  }
+
 
   componentDidMount() {
     this.ctx = this.canvasRef.current.getContext("2d");
     drawState(this.canvasRef.current, this.state.history[this.state.index].squares);
+    
+    let w = window.innerWidth, titleSize = 50, infoSize = 40, scoreSize=30;
+    if(w<=400){
+      titleSize = Math.round(50 * w/400);
+      infoSize = Math.round(40 * w/400);
+      scoreSize = Math.round(40 * w/400);
+    }
+    document.getElementById("game-title").style.fontSize = titleSize+"px";
+    document.getElementById("game-info").style.fontSize = infoSize+"px";
+    document.getElementById("game-score").style.fontSize = scoreSize+"px";
   }
 
   handleKeyboard(event){
@@ -209,14 +255,14 @@ class Game extends React.Component {
 
     return (
       <div className="game">
-        <h1 className="game-title">
+        <h1 id="game-title">
           <div>{status}</div>
         </h1>
-        <h1 className="game-score">
+        <h1 id="game-score">
           <div>{scoreBoard}</div>
         </h1>
-        <canvas ref={this.canvasRef} width={'500'} height={'500'} className = "game-board"></canvas>
-        <h1 className="game-info">
+        <canvas ref={this.canvasRef} width={this.state.canvasWidth} height={this.state.canvasHeight} className = "game-board"></canvas>
+        <h1 id="game-info">
           <div>{message}</div>
         </h1>
       </div>

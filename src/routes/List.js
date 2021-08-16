@@ -27,19 +27,15 @@ class List extends React.Component {
     super(props);
 
     let w = window.innerWidth;
-    let colNum=3;
-    if(w<900) {
-      colNum = 2;
+    const swiperSize = 300;
+    let swiperSpace = 30;
+    let colNum = Math.floor((w + swiperSpace)/(swiperSize + swiperSpace));
+    if (colNum >= 2) {
+      swiperSpace = (w - colNum * swiperSize)/(colNum-1)
     }
-    else if(w<1200){
-      colNum = 3;
-    }
-    else if(w<1600){
-      colNum = 4;
-    }
-    else{
-      colNum = 5;
-    }
+    else swiperSpace = 0;
+
+    console.log("w=",w,"colNum:",colNum,"space :",swiperSpace);
 
     this.lists = aiDays.map((i) => {
       return (
@@ -59,6 +55,7 @@ class List extends React.Component {
 
     this.state = {
       colNum:colNum,
+      swiperSpace : swiperSpace,
       rowNum:3
     }
     window.addEventListener('resize', (e)=>this.handleResize(e));
@@ -67,22 +64,19 @@ class List extends React.Component {
 
   handleResize(){
     let w = window.innerWidth;
-    let colNum=3;
-    if(w<900) {
-      colNum = 2;
+    const swiperSize = 300;
+    let swiperSpace = 30;
+    let colNum = Math.floor((w + swiperSpace)/(swiperSize + swiperSpace));
+    if (colNum >= 2) {
+      swiperSpace = (w - colNum * swiperSize)/(colNum-1)
     }
-    else if(w<1200){
-      colNum = 3;
-    }
-    else if(w<1600){
-      colNum = 4;
-    }
-    else{
-      colNum = 5;
-    }
+    else swiperSpace = 0;
+
+    console.log("resized... w=",w,"colNum:",colNum,"space :",swiperSpace);
     this.setState({
-      colNum:colNum
-    })
+      colNum:colNum,
+      swiperSpace:swiperSpace
+    });
   }
 
   handleClick(i){
