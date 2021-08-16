@@ -9,7 +9,7 @@ var fs = require('fs');
 
 app.use(cors())
 app.use(express.static('build'));
-app.use(express.static('model/model'));
+app.use(express.static('static'));
 
 let replayMemory = require('./model/dataset/replay.json');
 console.log("database size : ", replayMemory.length);

@@ -19,7 +19,7 @@ import SwiperCore, {
 SwiperCore.use([Pagination]);
 
 
-const aiDays = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22];
+const aiDays = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40];
 
 class List extends React.Component {
 
@@ -43,7 +43,17 @@ class List extends React.Component {
 
     this.lists = aiDays.map((i) => {
       return (
-        <SwiperSlide onClick={() => this.handleClick(i)}>{"Slide "+i}</SwiperSlide>
+        <SwiperSlide onClick={() => this.handleClick(i)}>
+          <flex className = "swiper-content">
+            <img src={"http://localhost:8000/images/stage"+i+".png"} className = "stage-image"/>
+            <div>
+              {"Day "+i}
+            </div>
+            <div>
+              {"Who Cleared :"+5}
+            </div>
+          </flex>
+        </SwiperSlide>
       );
     });
 
@@ -83,11 +93,11 @@ class List extends React.Component {
 
   render() {
     return (
-      <>
+      <div className = "list-inside">
         <Swiper slidesPerView={this.state.colNum} slidesPerColumn={this.state.rowNum} spaceBetween={30} pagination={{"clickable": true}} className="mySwiper">
           {this.lists}
         </Swiper>
-      </>
+      </div>
     );
   }
 }
