@@ -28,7 +28,7 @@ body {
   text-align: center;
   font-size: 28px;
   background: #cdc1b5;
-  height: calc((100% - 60px) / 3);
+  height: calc((95% - 60px) / 3);
   border-radius: 5%;
 
   /* Center slide text vertically */
@@ -49,18 +49,27 @@ body {
 .swiper-content {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .stage-image {
+  position:relative;
+  width:80%;
   border-radius:10%;
 }
+.stage-image:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
 
 .swiper-wrapper {
   height:100%;
 }
 
 .swiper-container {
-  height:90%;
+  height:95%;
 }
 
 

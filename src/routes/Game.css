@@ -15,7 +15,7 @@ ol, ul {
   margin-bottom: 10px;
 }
 
-.game-title {
+#game-title {
   background: transparent;
   text-align: center;
   font-size: 50px;
@@ -23,16 +23,17 @@ ol, ul {
   min-height: 50px;
 }
 
-.game-score {
+#game-score {
   background: transparent;
   text-align: center;
   color: #796c65;
   min-height: 50px;
   margin-top : -7%;
+  vertical-align: middle;
 }
 
 
-.game-info {
+#game-info {
   margin-bottom: 20px;
   background: transparent;
   padding: 7px;
@@ -40,6 +41,7 @@ ol, ul {
   color: #796c65;
   min-height: 100px;
   border-radius: 7px;
+  vertical-align: middle;
 }
 
 
@@ -57,44 +59,16 @@ ol, ul {
 }
 
 .game {
-  min-width: 450px;
   width: 25%;
+  height:100%;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 10px;
+  padding-top: 3%;
   background: #E2D8D0;
   border-radius: 5%;
-  display: flex;
-  flex-direction: column;
+  display: table;
 }
 
 .game-board {
   border-radius : 3%;
-}
-
-
-.board{
-  margin: auto;
-  padding-left : 13%;
-}
-
-.board-row:after {
-  clear: both;
-  content: "";
-  display: table;
-}
-
-
-
-.cell {
-  border: 2px solid #caf0f8;
-  border-radius: 10%;
-  margin : 2px;
-  float: left;
-  text-align: center;
-  width : 16%;
-  height: 65px;
-  cursor: pointer;
-  color: #333333;
-  font-size: 250%;
-  font-weight: bold;
 }

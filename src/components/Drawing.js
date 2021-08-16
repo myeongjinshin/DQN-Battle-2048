@@ -1,8 +1,8 @@
 var constants = require("../helpers/Constants.js");
 
 const map_size = constants.map_size;
-const padding = constants.block_padding;
-const square_round = constants.block_round;
+let padding = constants.block_padding;
+let square_round = constants.block_round;
 
 CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, radius) {
     if (width < 2 * radius) radius = width / 2;
@@ -17,7 +17,7 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, ra
     return this;
 }
 
-const playerColor = ["_", "ede0c8", "ede1c8", "eeb27d", "f29767", "f37c62", "f26140", "ebce74", "edcb67", "ebc85b", "e7c359", "e9be4f"];
+const playerColor = ["_", "eee6db", "ede1c8", "eeb27d", "f29767", "f37c62", "f26140", "ebce74", "edcb67", "ebc85b", "e7c359", "e9be4f"];
 const playerTextColor = ["_", "#796c65", "#796c65", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"];
 const aiColor = ["_", "D5D8DC", "ABB2B9", "808B96", "566573", "2C3E50", "273746", "212F3D", "1C2833", "17202A", "060E18"];
 const aiTextColor = ["_", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"];
@@ -39,11 +39,24 @@ function drawGrid(canvas){
     }
 }
 
+function calculateText(width) {
+    let fontSize = 60, fontBais = 20;
+    if(width <= 500){
+        fontSize = Math.round(fontSize * width/500);
+        fontBais = Math.round(fontBais * width/500);
+        padding = Math.round(constants.block_padding * width/500);
+        square_round = Math.round(constants.block_round * width/500);
+    }
+    return [fontSize, fontBais];
+}
+
 export function drawState(canvas, state){
   
     const ctx = canvas.getContext('2d');
+    const [fontSize, fontBias] = calculateText(canvas.width);
+
     ctx.textAlign = "center";
-    ctx.font = '48px Arial';
+    ctx.font = fontSize+'px Arial';
     const square_size = ( canvas.width - padding * (map_size+1) ) / map_size;
   
     //drawing grid
@@ -51,7 +64,6 @@ export function drawState(canvas, state){
     ctx.fillStyle="#bbaca1";
     ctx.fill()
     drawGrid(canvas);
-  
     //drawing squares
     for( let i = 0; i < map_size; i++) {
         for( let j = 0; j < map_size; j++) {
@@ -68,13 +80,13 @@ export function drawState(canvas, state){
                 ctx.fillStyle = '#'+playerColor[-state[i*map_size + j]];
                 ctx.fill();
                 ctx.fillStyle = playerTextColor[-state[i*map_size + j]];
-                ctx.fillText(-state[i*map_size + j],x+square_size/2,y+square_size/2+17);
+                ctx.fillText(-state[i*map_size + j],x+square_size/2,y+square_size/2+fontBias);
             }
             else {
                 ctx.fillStyle = '#'+aiColor[state[i*map_size + j]];
                 ctx.fill();
                 ctx.fillStyle = aiTextColor[state[i*map_size + j]];
-                ctx.fillText(state[i*map_size + j],x+square_size/2,y+square_size/2+17);
+                ctx.fillText(state[i*map_size + j],x+square_size/2,y+square_size/2+fontBias);
             }
         }
     }
@@ -82,8 +94,11 @@ export function drawState(canvas, state){
   
 export function animationPath(canvas, state, paths, next_state) {
     const ctx = canvas.getContext('2d');
+    const [fontSize, fontBias] = calculateText(canvas.width);
+
+    
     ctx.textAlign = "center";
-    ctx.font = '48px Arial';
+    ctx.font = fontSize + 'px Arial';
     const square_size = ( canvas.width - padding * (map_size+1) ) / map_size;
 
     let frame = 30;
@@ -117,13 +132,13 @@ export function animationPath(canvas, state, paths, next_state) {
                 ctx.fillStyle = '#'+playerColor[-val];
                 ctx.fill();
                 ctx.fillStyle = playerTextColor[-val];
-                ctx.fillText(-val,x+square_size/2,y+square_size/2+17);
+                ctx.fillText(-val,x+square_size/2,y+square_size/2+fontBias);
             }
             else {
                 ctx.fillStyle = '#'+aiColor[val];
                 ctx.fill();
                 ctx.fillStyle = aiTextColor[val];
-                ctx.fillText(val,x+square_size/2,y+square_size/2+17);
+                ctx.fillText(val,x+square_size/2,y+square_size/2+fontBias);
             }
         }
         if(cur == 0) {
