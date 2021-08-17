@@ -14,6 +14,34 @@ model2.postMessage({"type":"message", "value":"start", "random": 0});
 
 const map_size = constants.map_size;
 
+const homeButton = 1; 
+
+class HomeButton extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      hstyle : {
+        fontSize: "30px",
+        color: "#000",
+        backgroundColor: "#eeb27d",
+        fontFamily: "sans-serif",
+      }
+    };
+  }
+
+  render() {
+    return(
+      <>
+        <div className={this.props.name} style={this.state.hstyle}>
+          {this.props.displayName}
+        </div>
+      </>
+    )
+  }
+}
+
 class Home extends React.Component {
 
   constructor(props){
@@ -188,7 +216,7 @@ class Home extends React.Component {
         <canvas ref={this.canvasRef} width={'500'} height={'500'} className="home-game-board"></canvas>
         <h1 className="home-game-info">
           <div>{message}</div>
-        </h1>
+        </h1>        
       </div>
       <div className="home-menu">
         <div className="home-menu-title">
@@ -227,14 +255,12 @@ class Home extends React.Component {
                 />
           </div>
         </div>
-        <div className="home-news">
-        </div>
-        <div className="home-buttons">
-          <button>Play</button>
-          <button>Ranking</button>
-          <button>Profile</button>
-          <button>Rule</button>
-        </div>
+        <div className="home-news">NEWS</div>
+      </div>
+      <div className="home-buttons">
+        <HomeButton name="news-button" displayName="news" num={1}></HomeButton>
+        <HomeButton name="rule-button" displayName="rule" num={2}></HomeButton>
+        <HomeButton name="play-button" displayName="play" num={3}></HomeButton>
       </div>
       </>
     );

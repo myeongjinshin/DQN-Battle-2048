@@ -5,7 +5,7 @@ import Game from "./routes/Game";
 import List from "./routes/List";
 import Auth from "./routes/Auth";
 import Profile from "./routes/Profile";
-import Navigation from "./components/Navigation";
+import Navbar from "./components/Navigation";
 import PrivateRoute from "./helpers/PrivateRoute";
 import "./App.css";
 import {authService} from "./fbase";
@@ -32,14 +32,16 @@ function App() {
   } else {
     return (
       <Router>
-        <img src="http://localhost:8000/images/logo.png" height="100"></img>
-        <Navigation isLoggedIn={isLoggedIn}></Navigation>
         <Route path="/" exact={true} component={Home} />
         <PrivateRoute path="/game" component={Game} isLoggedIn={isLoggedIn} userObj={userObj}/>
         <PrivateRoute exact={true} path="/list" component={List} />
         <PrivateRoute path="/list/:id" component={Game} isLoggedIn={isLoggedIn} userObj={userObj}/>
         <Route path="/auth" component={Auth} />
         <PrivateRoute path="/profile" component={Profile} isLoggedIn={isLoggedIn} userObj={userObj}/>
+        <div className="logo">
+          <img src="http://localhost:8000/images/logo.png" height="100"></img>
+        </div>
+        <Navbar isLoggedIn={isLoggedIn}></Navbar>
       </Router>
     );
   } 
