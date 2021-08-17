@@ -2,16 +2,45 @@ import React from "react";
 import './Home.css'
 import { calcResult, calculateScore, isStuck } from "../components/Logic.js";
 import { drawState , animationPath } from "../components/Drawing.js";
+import TypeWriterEffect from "react-typewriter-effect";
 
 var constants = require("../helpers/Constants.js");
 
 const model1 = new Worker('Ai.js');
-model1.postMessage({"type":"message", "value":"start", "random": 0.08});
+model1.postMessage({"type":"message", "value":"start", "random": 1});
 
 const model2 = new Worker('Ai.js');
 model2.postMessage({"type":"message", "value":"start", "random": 0});
 
 const map_size = constants.map_size;
+
+const homeButton = 1; 
+
+class HomeButton extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      hstyle : {
+        fontSize: "30px",
+        color: "#000",
+        backgroundColor: "#eeb27d",
+        fontFamily: "sans-serif",
+      }
+    };
+  }
+
+  render() {
+    return(
+      <>
+        <div className={this.props.name} style={this.state.hstyle}>
+          {this.props.displayName}
+        </div>
+      </>
+    )
+  }
+}
 
 class Home extends React.Component {
 
@@ -89,6 +118,7 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
+    //this.renderText("Welcome to Battle 2048", 50, "text1");
     this.ctx = this.canvasRef.current.getContext("2d");
     drawState(this.canvasRef.current, this.state.history[this.state.index].squares);
     const nxt = this.state.history[this.state.index].squares;
@@ -145,28 +175,37 @@ class Home extends React.Component {
     return true;
   }
 
+  /*renderText(txt, size, id) {
+    let text = document.getElementById(id);
+    const typewriter = new Typewriter(text, {
+      loop: false
+    });
+    typewriter.typeString(txt);
+  }*/
+
   render() {
     const history = this.state.history;
     const current = history[this.state.index];
 
-    let status = "Battle 2048!!"
-    let message = "Your Turn";
+    let status = "SCORE";
+    let message = "AI-1 Turn";
 
     if(current.turn === false) {
-      message = "Ai's Turn";
+      message = "AI-2 Turn";
     }
 
     const [myScore, aiScore] = calculateScore(current.squares);
-    const scoreBoard = "You : "+myScore+" AI : "+aiScore;
+    const scoreBoard = "(AI-1) "+myScore+" : "+aiScore+" (AI-2)";
 
     if(this.state.winner === true) {
-      status = "You Win!!"
+      status = "AI-1 Win!!";
     }
     else if(this.state.winner === false) {
-      status = "You Lose"
+      status = "AI-2 Win!!";
     }
 
     return (
+      <>
       <div className="home-game">
         <h1 className="home-game-title">
           <div>{status}</div>
@@ -174,11 +213,56 @@ class Home extends React.Component {
         <h1 className="home-game-score">
           <div>{scoreBoard}</div>
         </h1>
-        <canvas ref={this.canvasRef} width={'500'} height={'500'} id="home-canvas"></canvas>
+        <canvas ref={this.canvasRef} width={'500'} height={'500'} className="home-game-board"></canvas>
         <h1 className="home-game-info">
           <div>{message}</div>
-        </h1>
+        </h1>        
       </div>
+      <div className="home-menu">
+        <div className="home-menu-title">
+          <div>Battle 2048!!</div>
+        </div>
+        <div className="home-text">
+          <div>
+            <TypeWriterEffect
+                width="400"
+                textStyle={{ 
+                  fontFamily: 'Red Hat Display',
+                  textAlign: 'center',
+                }}
+                startDelay={100}
+                cursorColor="black"
+                multiText={[
+                  'So what is different with 2048?',
+                  'You can Battle with AI and others',
+                  'Prove that you are better',
+                ]}
+                multiTextDelay={500}
+                typeSpeed={50}
+              />
+          </div>
+          <div>
+            <TypeWriterEffect
+                  width="400"
+                  textStyle={{ 
+                    fontFamily: 'Red Hat Display',
+                    textAlign: 'center',
+                  }}
+                  startDelay={10000}
+                  cursorColor="black"
+                  text="Check the Rules!"
+                  typeSpeed={50}
+                />
+          </div>
+        </div>
+        <div className="home-news">NEWS</div>
+      </div>
+      <div className="home-buttons">
+        <HomeButton name="news-button" displayName="news" num={1}></HomeButton>
+        <HomeButton name="rule-button" displayName="rule" num={2}></HomeButton>
+        <HomeButton name="play-button" displayName="play" num={3}></HomeButton>
+      </div>
+      </>
     );
   }
 }

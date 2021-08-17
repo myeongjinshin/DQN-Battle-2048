@@ -1,98 +1,170 @@
 body {
-    margin: 20px;
-    padding: 0;
-    font-family: sans-serif;
-    font: 14px;
-    background: linear-gradient(0deg, #ffffff, #ffffff, #ffffff);
-  }
-  
-  ol, ul {
-    padding-left: 30px;
-  }
-  
-  
-  .status {
-    margin-bottom: 10px;
-  }
-  
-  .home-game-title {
-    background: transparent;
-    text-align: center;
-    font-size: 50px;
-    color: #fff;
-    min-height: 50px;
-  }
-  
-  .home-game-score {
-    background: transparent;
-    text-align: center;
-    color: #fff;
-    min-height: 50px;
-    margin-top : -7%;
-  }
-  
-  
-  .home-game-info {
-    margin-bottom: 20px;
-    background: transparent;
-    padding: 7px;
-    text-align: center;
-    color: #fff;
-    min-height: 100px;
-    border-radius: 7px;
-  }
-  
-  
-  .info {
-    display: block;
-    margin-top: 15px;
-  }
-  
-  .square:focus {
-    outline: none;
-  }
-  
-  .kbd-navigation .square:focus {
-    background: #ddd;
-  }
-  
-  .home-game {
-    min-width: 450px;
-    width: 25%;
-    margin: 0 auto;
-    padding: 10px;
-    background: #00b4d8;
-    border-radius: 5%;
-    margin-top: 5vh;
-    display: flex;
-    flex-direction: column;
-    float: left;
-  }
-  
-  
-  .board{
-    margin: auto;
-    padding-left : 13%;
-  }
-  
-  .board-row:after {
-    clear: both;
-    content: "";
-    display: table;
-  }
-  
-  
-  
-  .cell {
-    border: 2px solid #caf0f8;
-    border-radius: 10%;
-    margin : 2px;
-    float: left;
-    text-align: center;
-    width : 16%;
-    height: 65px;
-    cursor: pointer;
-    color: #333333;
-    font-size: 250%;
-    font-weight: bold;
-  }
+  margin: 20px;
+  padding: 0;
+  font-family: sans-serif;
+  font: 14px;
+  background: #E2D8D0;
+}
+
+ol, ul {
+  padding-left: 30px;
+}
+
+
+.status {
+  margin-bottom: 10px;
+}
+
+.home-game-title {
+  background: transparent;
+  text-align: center;
+  font-size: 50px;
+  color: #796c65;
+  min-height: 50px;
+}
+
+.home-game-score {
+  background: transparent;
+  text-align: center;
+  color: #796c65;
+  min-height: 50px;
+  margin-top : -7%;
+}
+
+.home-game-info {
+  margin-bottom: 20px;
+  background: transparent;
+  padding: 7px;
+  text-align: center;
+  color: #796c65;
+  min-height: 50px;
+  border-radius: 7px;
+}
+
+
+.info {
+  display: block;
+  margin-top: 15px;
+}
+
+.square:focus {
+  outline: none;
+}
+
+.kbd-navigation .square:focus {
+  background: #E2D8D0;
+}
+
+.home-game {
+  position: absolute;
+  top: 30px;
+  right: 10%;
+  min-width: 300px;
+  width: 25%;
+  margin: 0 auto;
+  padding: 10px;
+  background: #E2D8D0;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-game-board {
+  border-radius : 3%;
+}
+
+
+.board{
+  margin: auto;
+  padding-left : 13%;
+}
+
+.board-row:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+
+
+.cell {
+  border: 2px solid #caf0f8;
+  border-radius: 10%;
+  margin : 2px;
+  float: left;
+  text-align: center;
+  width : 16%;
+  height: 65px;
+  cursor: pointer;
+  color: #333333;
+  font-size: 250%;
+  font-weight: bold;
+}
+
+.home-menu {
+  position: absolute;
+  top: 50px;
+  left: 10%;
+  min-width: 450px;
+  width: 40%;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 5%;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-menu-title {
+  background: transparent;
+  text-align: center;
+  font-size: 50px;
+  color: #796c65;
+  min-height: 50px;
+}
+
+.home-text {
+  background: transparent;
+  text-align: center;
+  min-height: 100px;
+}
+
+.home-news {
+  background-color: #fff;
+  border: 3px solid rgb(236, 144, 6);
+  min-height: 350px;
+}
+
+.home-buttons {
+  position: absolute;
+  top: 680px;
+  width: 100%;
+}
+
+.news-button {
+  position: absolute;
+  left: 20%;
+  width: 5%;
+  height: 70px;
+  border-radius : 10%;
+  text-align: center;
+  line-height: 70px;
+}
+
+.rule-button {
+  position: absolute;
+  left: 35%;
+  width: 5%;
+  height: 70px;
+  border-radius : 10%;
+  text-align: center;
+  line-height: 70px;
+}
+
+.play-button {
+  position: absolute;
+  left: 75%;
+  width: 5%;
+  height: 70px;
+  border-radius : 10%;
+  text-align: center;
+  line-height: 70px;
+}
