@@ -1,43 +1,57 @@
 import React, { useState } from 'react';
 import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai';
-import { Link } from 'react-router-dom';
-import { SidebarData } from './SidebarData';
 import './Navigation.css';
+import { useHistory } from 'react-router-dom';
 
 import { IconContext } from 'react-icons';
 function Navbar() {
-  const [sidebar, setSidebar] = useState(false);
-  const showSidebar = () => setSidebar(!sidebar);
+  const [openMenu, setOpenMenu] = useState(false);
+  const history = useHistory();
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= window.innerHeight * 0.84);
+
+  window.addEventListener('resize',() => setIsMobile(window.innerWidth <= window.innerHeight * 0.84));
+
+  const setClassNames = num => {
+      
+      const classArr = ["m-item"];
+      if (openMenu) {
+        if(isMobile) classArr.push(`mopen-${num}`);
+        else classArr.push(`open-${num}`);
+      }
+      return classArr.join(' ')
+  }
+
+  const pushToRoute = route => {
+      history.push(route)
+      setOpenMenu(false)
+  }
+
   return (
-    <>
-      <IconContext.Provider value={{ color: '#fff' }}>
-        <div className="navbar">
-          <Link to="#" className="menu-bars">
-            <FaIcons.FaBars onClick={showSidebar} />
-          </Link>
-        </div>
-        <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-          <ul className="nav-menu-items" onClick={showSidebar}>
-            <li className="navbar-toggle">
-              <Link to="#" className="menu-bars">
-                <AiIcons.AiOutlineClose />
-              </Link>
-            </li>
-            {SidebarData.map((item, index) => {
-              return (
-                <li key={index} className={item.cName}>
-                  <Link to={item.path}>
-                    {item.icon}
-                    <span>{item.title}</span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-      </IconContext.Provider>
-    </>
+    <IconContext.Provider value={{ color: '#fff' }}>
+      <div className="Menu">
+          <div className={"m-logo"}
+              onClick={() => setOpenMenu(!openMenu)}>
+              <FaIcons.FaBars size="2em"/>
+          </div>
+          <div className={setClassNames(1)}
+              onClick={() => pushToRoute("/")}>
+              Home
+          </div>
+          <div className={setClassNames(2)}
+              onClick={() => pushToRoute("/game")}>
+              Game
+          </div>
+          <div className={setClassNames(3)}
+              onClick={() => pushToRoute("/profile")}>
+              Profile
+          </div>
+          <div className={setClassNames(4)}
+              onClick={() => pushToRoute("/list")}>
+              List
+          </div>
+      </div>
+    </IconContext.Provider>
   );
+
 }
 export default Navbar;

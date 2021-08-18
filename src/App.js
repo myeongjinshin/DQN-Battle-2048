@@ -32,6 +32,7 @@ function App() {
   } else {
     return (
       <Router>
+        <Navbar></Navbar>
         <Route path="/" exact={true} component={Home} />
         <PrivateRoute path="/game" component={Game} isLoggedIn={isLoggedIn} userObj={userObj}/>
         <PrivateRoute exact={true} path="/list" component={List} />
