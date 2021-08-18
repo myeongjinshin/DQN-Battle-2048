@@ -38,10 +38,6 @@ function App() {
         <PrivateRoute path="/list/:id" component={Game} isLoggedIn={isLoggedIn} userObj={userObj}/>
         <Route path="/auth" component={Auth} />
         <PrivateRoute path="/profile" component={Profile} isLoggedIn={isLoggedIn} userObj={userObj}/>
-        <div className="logo">
-          <img src="http://localhost:8000/images/logo.png" height="100"></img>
-        </div>
-        <Navbar isLoggedIn={isLoggedIn}></Navbar>
       </Router>
     );
   } 
