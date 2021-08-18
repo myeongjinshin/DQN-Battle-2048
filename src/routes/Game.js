@@ -69,14 +69,6 @@ class Game extends React.Component {
       }
     }
 
-    window.addEventListener("keydown", (e) => this.handleKeyboard(e));
-    window.addEventListener("keydown", function(e) {
-        if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
-            e.preventDefault();
-        }
-    }, false);
-    window.addEventListener('resize', (e)=>this.handleResize(e));
-
   }
 
   handleResize(){
@@ -115,6 +107,15 @@ class Game extends React.Component {
     document.getElementById("game-title").style.fontSize = titleSize+"px";
     document.getElementById("game-info").style.fontSize = infoSize+"px";
     document.getElementById("game-score").style.fontSize = scoreSize+"px";
+
+    window.addEventListener("keydown", (e) => this.handleKeyboard(e));
+    window.addEventListener("keydown", function(e) {
+        if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+            e.preventDefault();
+        }
+    }, false);
+    
+    window.onresize = (e)=>this.handleResize(e);
   }
 
   handleKeyboard(event){

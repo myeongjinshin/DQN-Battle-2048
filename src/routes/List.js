@@ -55,7 +55,8 @@ class List extends React.Component {
       rowNum:rowNum,
     }
     console.log("hmm", colNum, rowNum);
-    window.addEventListener('resize', (e)=>this.handleResize(e));
+    window.onresize = (e)=>this.handleResize(e);
+    //window.addEventListener('resize', (e)=>this.handleResize(e));
 
   }
 
@@ -65,7 +66,7 @@ class List extends React.Component {
     const [colNum, rowNum] = calculate_layout();
     this.setState({
       colNum:colNum,
-      rowNum:rowNum,
+      rowNum:rowNum, 
     });
     update_layout();
   }
@@ -76,8 +77,6 @@ class List extends React.Component {
     update_layout();
 
     const [rowNum, colNum] = calculate_layout();
-    
-
     this.setState({
       colNum:colNum,
       rowNum:rowNum,
