@@ -15,6 +15,10 @@ import SwiperCore, {
   Pagination
 } from 'swiper/core';
 
+var constants = require("../helpers/Constants.js");
+const playerColor = constants.player_color;
+const playerTextColor = constants.player_text_color;
+
 // install Swiper modules
 SwiperCore.use([Pagination]);
 
@@ -30,6 +34,7 @@ class List extends React.Component {
       return (
         <SwiperSlide onClick={() => this.handleClick(i)}>
           <div className = "swiper-content">
+            <img className = "cleared-image" src="https://user-images.githubusercontent.com/17401630/129873431-4c8144a2-0721-459b-9296-69c5481b5b21.png"/>
             <div className = "day-number">
               {i}
             </div>
@@ -62,24 +67,16 @@ class List extends React.Component {
       colNum:colNum,
       rowNum:rowNum,
     });
+    update_layout();
   }
 
   handleResize(){
     let w = window.innerWidth, h = window.innerHeight;
     document.getElementById("list-inside").style.paddingTop = Math.round(h/10)+"px";
+    update_layout();
 
     const [rowNum, colNum] = calculate_layout();
-    const sliders = document.getElementsByClassName("swiper-slide");
-    for(let i=0;i<sliders.length;i++){
-      sliders[i].style.height = Math.round(90/rowNum)+"%";
-    }
-
-    const contents = document.getElementsByClassName("swiper-content");
-
-    console.log(contents[0].style);
-    for(let i=0;i<contents.length;i++){
-      contents[i].style.width = contents[i].style.height;
-    }
+    
 
     this.setState({
       colNum:colNum,
@@ -121,12 +118,58 @@ function calculate_layout(){
   else if(h<1800) rowNum = 6;
   else rowNum = 7;
 
-  if(w<450) colNum = 1;
-  else if(w<750) colNum = 2;
-  else if(w<1100) colNum = 3;
-  else if(w<1400) colNum = 4;
+  if(w<400) colNum = 1;
+  else if(w<680) colNum = 2;
+  else if(w<950) colNum = 3;
+  else if(w<1250) colNum = 4;
   else if(w<1600) colNum = 5;
   else if(w<1800) colNum = 6;
   else colNum = 7;
   return [rowNum, colNum];
+}
+
+function update_layout(){
+  let w = window.innerWidth, h = window.innerHeight;
+  const [rowNum, colNum] = calculate_layout();
+  const sliders = document.getElementsByClassName("swiper-slide");
+  const contents = document.getElementsByClassName("swiper-content");
+
+  for(let i=0;i<sliders.length;i++){
+    sliders[i].style.height = Math.round(90/rowNum)+"%";
+  }
+  const size = Math.round(Math.min(h/rowNum * 9/10 * 0.8, w/colNum*0.8));
+  for(let i=0;i<contents.length;i++){
+    contents[i].style.width = size+"px";
+    contents[i].style.height = size+"px";
+    const dayNumber = contents[i].getElementsByClassName("day-number")[0];
+    const num = Number(dayNumber.textContent);
+    const clearedHead = contents[i].getElementsByClassName("cleared-head")[0];
+    const clearedNum = contents[i].getElementsByClassName("cleared-number")[0];
+    const clearedImg = contents[i].getElementsByClassName("cleared-image")[0];
+    contents[i].style.background = playerColor[Math.floor((num-1)/10)+1];
+    dayNumber.style.color = playerTextColor[Math.floor((num-1)/10)+1];
+    clearedHead.style.color = playerTextColor[Math.floor((num-1)/10)+1];
+    clearedNum.style.color = playerTextColor[Math.floor((num-1)/10)+1];
+
+    if(num < 10){
+      dayNumber.style.fontSize = Math.round(size*0.7)+"px";
+      clearedHead.style.marginTop = "63%";
+    }
+    else {
+      dayNumber.style.fontSize = Math.round(size*0.6)+"px";
+      dayNumber.style.marginTop = "0%";
+      dayNumber.style.marginLeft = "17%";
+      clearedHead.style.marginTop = "63%";
+    }
+    clearedNum.style.marginTop = "76%";
+    clearedNum.style.marginLeft = "45%";
+    clearedHead.style.fontSize = Math.round(size*0.12)+"px";
+    clearedNum.style.fontSize = Math.round(size*0.18)+"px";
+
+    //Test code
+    if(num > 25) {
+      clearedImg.style.visibility = "hidden";
+    }
+  }
+
 }
