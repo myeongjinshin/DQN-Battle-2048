@@ -26,57 +26,66 @@ class List extends React.Component {
   constructor(props){
     super(props);
 
-    let w = window.innerWidth;
-    const swiperSize = 300;
-    let swiperSpace = 30;
-    let colNum = Math.floor((w + swiperSpace)/(swiperSize + swiperSpace));
-    if (colNum >= 2) {
-      swiperSpace = (w - colNum * swiperSize)/(colNum-1)
-    }
-    else swiperSpace = 0;
-
-    console.log("w=",w,"colNum:",colNum,"space :",swiperSpace);
-
     this.lists = aiDays.map((i) => {
       return (
         <SwiperSlide onClick={() => this.handleClick(i)}>
-          <flex className = "swiper-content">
-            <img src={"http://localhost:8000/images/stage"+i+".png"} className = "stage-image"/>
-            <div>
-              {"Day "+i}
+          <div className = "swiper-content">
+            <div className = "day-number">
+              {i}
             </div>
-            <div>
-              {"Who Cleared :"+5}
+            <div className = "cleared-head">
+              Who Cleared
             </div>
-          </flex>
+            <div className = "cleared-number">
+              {5}
+            </div>
+          </div>
         </SwiperSlide>
       );
     });
 
+    const [colNum, rowNum] = calculate_layout();
     this.state = {
       colNum:colNum,
-      swiperSpace : swiperSpace,
-      rowNum:3
+      rowNum:rowNum,
     }
+    console.log("hmm", colNum, rowNum);
     window.addEventListener('resize', (e)=>this.handleResize(e));
 
   }
 
-  handleResize(){
-    let w = window.innerWidth;
-    const swiperSize = 300;
-    let swiperSpace = 30;
-    let colNum = Math.floor((w + swiperSpace)/(swiperSize + swiperSpace));
-    if (colNum >= 2) {
-      swiperSpace = (w - colNum * swiperSize)/(colNum-1)
-    }
-    else swiperSpace = 0;
-
-    console.log("resized... w=",w,"colNum:",colNum,"space :",swiperSpace);
+  componentDidMount() {
+    let w = window.innerWidth, h = window.innerHeight;
+    document.getElementById("list-inside").style.paddingTop = Math.round(h/10)+"px";
+    const [colNum, rowNum] = calculate_layout();
     this.setState({
       colNum:colNum,
-      swiperSpace:swiperSpace
+      rowNum:rowNum,
     });
+  }
+
+  handleResize(){
+    let w = window.innerWidth, h = window.innerHeight;
+    document.getElementById("list-inside").style.paddingTop = Math.round(h/10)+"px";
+
+    const [rowNum, colNum] = calculate_layout();
+    const sliders = document.getElementsByClassName("swiper-slide");
+    for(let i=0;i<sliders.length;i++){
+      sliders[i].style.height = Math.round(90/rowNum)+"%";
+    }
+
+    const contents = document.getElementsByClassName("swiper-content");
+
+    console.log(contents[0].style);
+    for(let i=0;i<contents.length;i++){
+      contents[i].style.width = contents[i].style.height;
+    }
+
+    this.setState({
+      colNum:colNum,
+      rowNum:rowNum,
+    });
+
   }
 
   handleClick(i){
@@ -86,14 +95,38 @@ class List extends React.Component {
   }
 
   render() {
+    const [rowNum, colNum] = calculate_layout();
     return (
-      <div className = "list-inside">
-        <Swiper slidesPerView={this.state.colNum} slidesPerColumn={this.state.rowNum} spaceBetween={30} pagination={{"clickable": true}} className="mySwiper">
+      <div id = "list-inside">
+        <Swiper slidesPerView={colNum} slidesPerColumn={rowNum} slidesPerGroup={colNum} pagination={{"clickable": true}} className="mySwiper">
           {this.lists}
-        </Swiper>
+        </Swiper> 
       </div>
     );
   }
 }
 
 export default List;
+
+
+function calculate_layout(){
+  let w = window.innerWidth, h = window.innerHeight;
+
+  let colNum = 5, rowNum = 3;
+  if(h<450) rowNum = 1;
+  else if(h<750) rowNum = 2;
+  else if(h<1100) rowNum = 3;
+  else if(h<1400) rowNum = 4;
+  else if(h<1600) rowNum = 5;
+  else if(h<1800) rowNum = 6;
+  else rowNum = 7;
+
+  if(w<450) colNum = 1;
+  else if(w<750) colNum = 2;
+  else if(w<1100) colNum = 3;
+  else if(w<1400) colNum = 4;
+  else if(w<1600) colNum = 5;
+  else if(w<1800) colNum = 6;
+  else colNum = 7;
+  return [rowNum, colNum];
+}

@@ -27,8 +27,8 @@ body {
 .swiper-slide {
   text-align: center;
   font-size: 28px;
-  background: #cdc1b5;
-  height: calc((95% - 60px) / 3);
+  height: calc((90% - 60px) / 3);
+  background: #111111;
   border-radius: 5%;
 
   /* Center slide text vertically */
@@ -47,32 +47,35 @@ body {
 }
   
 .swiper-content {
-  display: flex;
+  background: #f37c62;
+  position:relative;
   flex-direction: column;
   align-items: center;
-}
-
-.stage-image {
-  position:relative;
-  width:80%;
-  border-radius:10%;
-}
-.stage-image:after {
-  content: "";
-  display: block;
-  padding-bottom: 100%;
+  border-radius:8%;
 }
 
 
-.swiper-wrapper {
+.day-number {
+  font-size:500%;
+  color:#ffffff;
+  font-family:consolas;
+}
+
+.cleared-head {
+  margin-top:-20%;
+  font-size:80%;
+  color:#ffffff;
+  font-family:consolas;
+}
+
+.cleared-number{
+  font-size:100%;
+  color:#ffffff;
+  font-family:consolas;
+}
+
+#list-inside {
+  padding-top:10%;
+  width:100%;
   height:100%;
-}
-
-.swiper-container {
-  height:95%;
-}
-
-
-.list-inside {
-  padding-top : 2%;
 }
