@@ -22,6 +22,7 @@
   transition: 1s;
   color: #1c2833;
   font-size: 1.2em;
+  z-index: 2;
 }
 
 .m-logo{
@@ -42,8 +43,7 @@
   cursor: pointer;
 
   transition: 1s;
-
-  z-index: 1;
+  z-index: 3;
 }
 
 .open-1{
