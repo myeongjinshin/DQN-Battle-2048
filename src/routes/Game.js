@@ -116,18 +116,10 @@ class Game extends React.Component {
     }
 
     let result = true; //맵에 변화를 주는지 여부
-    if(event.key === "ArrowRight") {
-      result = this.handleAction(0);
-    }
-    else if(event.key === "ArrowLeft") {
-      result = this.handleAction(1);
-    }
-    else if(event.key === "ArrowDown") {
-      result = this.handleAction(2);
-    }
-    else if(event.key === "ArrowUp") {
-      result = this.handleAction(3);
-    }
+    if(event.key === "ArrowRight") result = this.handleAction(0);
+    else if(event.key === "ArrowLeft") result = this.handleAction(1);
+    else if(event.key === "ArrowDown") result = this.handleAction(2);
+    else if(event.key === "ArrowUp") result = this.handleAction(3);
     else{ // another key -> return
       return ;
     }

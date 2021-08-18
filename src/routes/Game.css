@@ -39,6 +39,7 @@ body {
   text-align: center;
   font-size: 20px;
   color: #796c65;
+  font-weight:700;
 }
 
 #ai-text {
@@ -48,6 +49,7 @@ body {
   text-align: center;
   font-size: 20px;
   color: #796c65;
+  font-weight:700;
 }
 
 #you-score {
