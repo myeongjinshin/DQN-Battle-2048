@@ -1,12 +1,17 @@
 import React from "react";
 import './Game.css'
 import io from "socket.io-client";
-import { calcResult, calculateScore, isStuck } from "../components/Logic.js";
+import { calcResult, calculateScore, calculateMax, isStuck } from "../components/Logic.js";
 import { drawState , animationPath } from "../components/Drawing.js";
 import { record, finishRecord } from "../components/Recorder";
 import { dbService } from "../fbase";
 
 var constants = require("../helpers/Constants.js");
+const playerColor = constants.player_color;
+const playerTextColor = constants.player_text_color;
+const aiColor = constants.ai_color;
+const aiTextColor = constants.ai_text_color;
+
 
 const socket = io();
 
@@ -72,19 +77,12 @@ class Game extends React.Component {
   }
 
   handleResize(){
+    update_layout();
     let w = window.innerWidth;
-    let canvasWidth = 500, titleSize = 50, infoSize = 40, scoreSize = 30;
+    let canvasWidth = 500;
     if (w<=600) {
       canvasWidth = Math.floor(w * 500/600);
     }
-    if(w<=400){
-      titleSize = Math.round(50 * w/400);
-      infoSize = Math.round(40 * w/400);
-      scoreSize = Math.round(30 * w/400);
-    }
-    document.getElementById("game-title").style.fontSize = titleSize+"px";
-    document.getElementById("game-info").style.fontSize = infoSize+"px";
-    document.getElementById("game-score").style.fontSize = scoreSize+"px";
     this.setState({
       canvasWidth : canvasWidth,
       canvasHeight : canvasWidth,
@@ -98,15 +96,7 @@ class Game extends React.Component {
     this.ctx = this.canvasRef.current.getContext("2d");
     drawState(this.canvasRef.current, this.state.history[this.state.index].squares);
     
-    let w = window.innerWidth, titleSize = 50, infoSize = 40, scoreSize=30;
-    if(w<=400){
-      titleSize = Math.round(50 * w/400);
-      infoSize = Math.round(40 * w/400);
-      scoreSize = Math.round(40 * w/400);
-    }
-    document.getElementById("game-title").style.fontSize = titleSize+"px";
-    document.getElementById("game-info").style.fontSize = infoSize+"px";
-    document.getElementById("game-score").style.fontSize = scoreSize+"px";
+    let w = window.innerWidth;
 
     window.addEventListener("keydown", (e) => this.handleKeyboard(e));
     window.addEventListener("keydown", function(e) {
@@ -116,6 +106,7 @@ class Game extends React.Component {
     }, false);
     
     window.onresize = (e)=>this.handleResize(e);
+    update_layout();
   }
 
   handleKeyboard(event){
@@ -172,22 +163,13 @@ class Game extends React.Component {
     const [myScore, aiScore] = calculateScore(nxt);
 
     if(isStuck(nxt, !current.turn)){
-      if(myScore > aiScore) {
-        winner = true;
-      }
-      else if(myScore < aiScore) {
-        winner = false;
-      }
-      else{
-        winner = current.turn;
-      }
+      if(myScore > aiScore) winner = true;
+      else if(myScore < aiScore) winner = false;
+      else winner = current.turn;
     }
-    if(myScore >= aiScore * 10) {
-      winner = true;
-    }
-    else if (myScore * 10 <= aiScore) {
-      winner = false;
-    }
+
+    if(myScore >= aiScore * 10) winner = true;
+    else if (myScore * 10 <= aiScore) winner = false;
 
     if(winner != null){
       dbService.collection("game_record").add({
@@ -201,6 +183,13 @@ class Game extends React.Component {
       socket.emit("database", database);
     }
 
+    const [myBest, aiBest] = calculateMax(nxt);
+    document.getElementById("you-score").style.color=playerTextColor[myBest];
+    document.getElementById("you-score").style.backgroundColor=playerColor[myBest];
+    document.getElementById("ai-score").style.color=aiTextColor[aiBest];
+    document.getElementById("ai-score").style.backgroundColor=aiColor[aiBest];
+    
+
     this.setState({
       history: history.concat([{
         squares:nxt,
@@ -209,6 +198,8 @@ class Game extends React.Component {
       index: this.state.index+1,
       winner:winner,
     });
+
+
 
     animationPath(this.canvasRef.current, current.squares, paths, nxt);
     return true;
@@ -256,13 +247,14 @@ class Game extends React.Component {
 
     return (
       <div className="game">
-        <h1 id="game-title">
-          <div>{status}</div>
-        </h1>
-        <h1 id="game-score">
-          <div>{scoreBoard}</div>
-        </h1>
-        <canvas ref={this.canvasRef} width={this.state.canvasWidth} height={this.state.canvasHeight} className = "game-board"></canvas>
+        <div id="game-title">Battle</div>
+        <div id="game-title-sub">2048</div>
+        <div id="you-text">YOU</div>
+        <div id="ai-text">AI</div>
+        <div id="you-score">{myScore}</div>
+        <div id="ai-score">{aiScore}</div>
+
+        <canvas ref={this.canvasRef} width={this.state.canvasWidth} height={this.state.canvasHeight} id = "game-board"></canvas>
         <h1 id="game-info">
           <div>{message}</div>
         </h1>
@@ -273,6 +265,56 @@ class Game extends React.Component {
 
 function disablePause() {
   pause = false;
+}
+
+function update_layout(){
+  let w = window.innerWidth, h = window.innerHeight;
+  let canvasSize = Math.min(Math.round(w*0.9), Math.round(h*0.5));
+
+  const board = document.getElementById("game-board");
+  board.style.marginTop = Math.round(h * 0.2) + "px";
+  board.style.width = canvasSize + "px";
+  board.style.height = canvasSize + "px";
+  board.style.marginLeft = Math.round((w-canvasSize)/2) + "px";
+  board.style.marginTop = Math.round((h-canvasSize)/2 - canvasSize * 0.1) + "px";
+
+  
+  const title = document.getElementById("game-title");
+  title.style.fontSize = Math.round(50 * canvasSize / 500) + "px";
+  title.style.marginLeft = Math.round((w-canvasSize)/2) + "px";
+  title.style.marginTop = Math.round((h-canvasSize)/2 - canvasSize*0.35) + "px";
+
+  const subTitle = document.getElementById("game-title-sub");
+  subTitle.style.fontSize = Math.round(30 * canvasSize / 500) + "px";
+  subTitle.style.marginLeft = Math.round((w-canvasSize)/2) + "px";
+  subTitle.style.marginTop = Math.round((h-canvasSize)/2 - canvasSize*0.23) + "px";
+
+  const youText = document.getElementById("you-text");
+  youText.style.fontSize = Math.round(30 * canvasSize / 500) + "px";
+  youText.style.marginLeft = Math.round((w-canvasSize)/2 + canvasSize * 0.507) + "px";
+  youText.style.marginTop = Math.round((h-canvasSize)/2 - canvasSize*0.35) + "px";
+  
+  const aiText = document.getElementById("ai-text");
+  aiText.style.fontSize = Math.round(30 * canvasSize / 500) + "px";
+  aiText.style.marginLeft = Math.round((w-canvasSize)/2 + canvasSize * 0.85) + "px";
+  aiText.style.marginTop = Math.round((h-canvasSize)/2 - canvasSize*0.35) + "px";
+
+  const youScore = document.getElementById("you-score");
+  youScore.style.fontSize = Math.round(30 * canvasSize / 500) + "px";
+  youScore.style.marginLeft = Math.round((w-canvasSize)/2 + canvasSize * 0.445) + "px";
+  youScore.style.marginTop = Math.round((h-canvasSize)/2 - canvasSize*0.25) + "px";
+  youScore.style.width = Math.round(canvasSize * 0.23) + "px";
+  
+  const aiScore = document.getElementById("ai-score");
+  aiScore.style.fontSize = Math.round(30 * canvasSize / 500) + "px";
+  aiScore.style.marginLeft = Math.round((w-canvasSize)/2 + canvasSize * 0.76) + "px";
+  aiScore.style.marginTop = Math.round((h-canvasSize)/2 - canvasSize*0.25) + "px";
+  aiScore.style.width = Math.round(canvasSize * 0.23) + "px";
+
+  const gameInfo = document.getElementById("game-info");
+  gameInfo.style.fontSize = Math.round(40 * canvasSize / 500) + "px";
+  gameInfo.style.marginLeft = Math.round((w-canvasSize)/2 + canvasSize * 0.3) + "px";
+  gameInfo.style.marginTop = Math.round(h/2 + canvasSize*0.45) + "px";
 }
 
 export default Game;

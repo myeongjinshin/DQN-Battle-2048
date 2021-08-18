@@ -184,3 +184,16 @@ export function isStuck(state, turn){
     }
     return ret;
 }
+
+export function calculateMax(state){
+    let myScore = 0, aiScore = 0;
+    for(let i = 0;i<state.length;i++){
+      if(state[i] > 0){
+        aiScore = Math.max(aiScore, state[i]);
+      }
+      else if(state[i] < 0){
+        myScore = Math.max(myScore, -state[i]);
+      }
+    }
+    return [myScore, aiScore];
+}
