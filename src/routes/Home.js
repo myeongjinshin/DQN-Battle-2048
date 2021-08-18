@@ -2,6 +2,7 @@ import React from "react";
 import './Home.css';
 import { calcResult, calculateScore, isStuck } from "../components/Logic.js";
 import { drawState , animationPath } from "../components/Drawing.js";
+import { Link } from "react-router-dom";
 
 var constants = require("../helpers/Constants.js");
 
@@ -191,7 +192,7 @@ class Home extends React.Component {
           </div>
           <div className="mhome-hello">Hello!</div>
           <div className="mhome-text1">Play Battle 2048</div>
-          <div className="mhome-text2">With Ai or Others</div>
+          <div className="mhome-text2">With Ai or Players</div>
           <div className="mhome-playbutton">play</div>
           <div className="mhome-learnbutton">learn more</div>
         </>
@@ -204,9 +205,9 @@ class Home extends React.Component {
           </div>
           <div className="home-hello">Hello!</div>
           <div className="home-text1">Play Battle 2048</div>
-          <div className="home-text2">With Ai or Others</div>
-          <div className="home-playbutton">play</div>
-          <div className="home-learnbutton">learn more</div>
+          <div className="home-text2">With Ai Players</div>
+          <Link to="/game"><div className="home-playbutton">play</div></Link>
+          <Link to="/game"><div className="home-learnbutton">learn more</div></Link>
         </>
       );
     }

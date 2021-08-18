@@ -111,37 +111,37 @@ ol, ul {
 }
 
 .home-playbutton {
-  display: table-cell;
+  display: flex;
   background-color: #1c2833;
   position: absolute;
   left: 7.65%;
   top: 72.3%;
   width: 7.65%;
   height: 6.38%;
-  text-align: center;
+  justify-content: center;
   color: #fff;
   font-size: 2.2vw;
   font-family: Calibri;
   font-weight: bold; 
   border-radius : 7%;
-  vertical-align: center;
+  align-items: center;
 }
 
 .home-learnbutton {
-  display: table-cell;
+  display: flex;
   background-color: #ebce74;
   position: absolute;
   left: 17.1%;
   top: 72.3%;
   width: 14.4%;
   height: 6.38%;
-  text-align: center;
+  justify-content: center;
   color: #fff;
   font-size: 2.2vw;
   font-family: Calibri;
   font-weight: bold; 
   border-radius : 7%;
-  vertical-align: center;
+  align-items: center;
 }
 
 .mhome-game {
@@ -199,35 +199,35 @@ ol, ul {
 }
 
 .mhome-playbutton {
-  display: table-cell;
+  display: flex;
   background-color: #1c2833;
   position: absolute;
   left: 15.8%;
   top: 43.5%;
   width: 23.1%;
   height: 4.14%;
-  text-align: center;
+  justify-content: center;
   color: #fff;
   font-size: 2.5vh;
   font-family: Calibri;
   font-weight: bold; 
   border-radius : 7%;
-  vertical-align: center;
+  align-items: center;
 }
 
 .mhome-learnbutton {
-  display: table-cell;
+  display: flex;
   background-color: #ebce74;
   position: absolute;
   left: 43.1%;
   top: 43.5%;
   width: 43.1%;
   height: 4.14%;
-  text-align: center;
+  justify-content: center;
   color: #fff;
   font-size: 2.5vh;
   font-family: Calibri;
   font-weight: bold; 
   border-radius : 7%;
-  vertical-align: center;
+  align-items: center;
 }
