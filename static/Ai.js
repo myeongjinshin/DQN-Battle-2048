@@ -56,7 +56,6 @@ function predict(){
     const prediction = model.predict(tf.tensor([input])).dataSync();
 
     action = possible.reduce((i, j) => prediction[i]>prediction[j]?i:j);
-    console.log("ai action : ", action);
 
     //action = prediction.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
 

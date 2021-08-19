@@ -11,20 +11,13 @@ app.use(cors())
 app.use(express.static('build'));
 app.use(express.static('static'));
 
-let replayMemory = require('./model/dataset/replay.json');
-console.log("database size : ", replayMemory.length);
-
 io.on("connection", (socket) => {
   console.log("a user connected");
   socket.on("database", (msg) => {
-    console.log("single game end");
-    replayMemory = replayMemory.concat(msg);
-
-    fs.writeFile ("./model/dataset/replay.json", JSON.stringify(replayMemory), function(err) {
-      if (err) throw err;
-        console.log('save complete. data size = ', replayMemory.length);
-      }
-    );
+    console.log("single game end. size = ", msg.length);
+    for(let i=0;i<msg.length;i++){
+      fs.appendFileSync('./model/dataset/replay.txt', "\n"+JSON.stringify(msg[i]));
+    }
 
   });
   socket.on("disconnect", () => {
