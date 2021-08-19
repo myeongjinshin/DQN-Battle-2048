@@ -94,7 +94,7 @@ class Home extends React.Component {
             e.preventDefault();
         }
     }, false);
-    window.addEventListener('resize', (e)=>this.handleResize(e));
+    window.onresize = (e)=>this.handleResize(e);
   }
 
   handleResize(){

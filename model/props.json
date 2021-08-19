@@ -8,7 +8,7 @@
     "epsilon_decay" : 0.9995,
     "epsilon_min" : 0.01,
     "batch_size" : 64,
-    "train_start" : 600,
+    "train_start" : 3000,
     "max_memory" : 10000,
     "initial" : {
         "map_width" : 5,

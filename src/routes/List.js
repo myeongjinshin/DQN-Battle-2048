@@ -1,5 +1,5 @@
 
-import React, { useRef, useState } from "react";
+import React from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -61,7 +61,7 @@ class List extends React.Component {
   }
 
   componentDidMount() {
-    let w = window.innerWidth, h = window.innerHeight;
+    let h = window.innerHeight;
     document.getElementById("list-inside").style.paddingTop = Math.round(h/10)+"px";
     const [colNum, rowNum] = calculate_layout();
     this.setState({
@@ -72,7 +72,7 @@ class List extends React.Component {
   }
 
   handleResize(){
-    let w = window.innerWidth, h = window.innerHeight;
+    let h = window.innerHeight;
     document.getElementById("list-inside").style.paddingTop = Math.round(h/10)+"px";
     update_layout();
 

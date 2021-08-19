@@ -1,3 +1,4 @@
+from ast import literal_eval
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
@@ -16,8 +17,15 @@ class DQNAgent:
         with open("props.json", "r") as f:
             props = json.load(f)
 
-        with open("./dataset/replay.json", "r") as f:
-            memory = json.load(f)
+        memory = []
+        with open("./dataset/replay.txt", "r") as f:
+            while True :
+                line = f.readline()
+                line = line.replace("false", "False");
+                line = line.replace("true", "True");
+                if not line :
+                    break
+                memory.append(literal_eval(line))
 
         self.load_model = props["load_model"]
         self.model_name = props["model_name"]
@@ -129,5 +137,5 @@ if __name__ == "__main__":
             if i % 100 == 99 :
                 print((i+1)//100,"% done... epsilon : ", agent.epsilon)
             agent.train_model()
-    agent.model.save_weights("./history/"+agent.model_name)
-    tfjs.converters.save_keras_model(agent.model, "./history")
+        agent.model.save_weights("./history/"+agent.model_name)
+        tfjs.converters.save_keras_model(agent.model, "./history")
