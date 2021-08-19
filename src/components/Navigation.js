@@ -18,7 +18,7 @@ function Navbar() {
         if(isMobile) classArr.push(`mopen-${num}`);
         else classArr.push(`open-${num}`);
       }
-      return classArr.join(' ')
+      return classArr.join(' ');
   }
 
   const pushToRoute = route => {
@@ -31,7 +31,7 @@ function Navbar() {
       <div className="Menu">
           <div className={"m-logo"}
               onClick={() => setOpenMenu(!openMenu)}>
-              <FaIcons.FaBars size="2em"/>
+              <FaIcons.FaBars size={isMobile?"1.5vh":"2vw"}/>
           </div>
           <div className={setClassNames(1)}
               onClick={() => pushToRoute("/")}>

@@ -24,23 +24,41 @@ ol, ul {
   outline: none;
 }
 
-.kbd-navigation .square:focus {
-  background: #E2D8D0;
-}
 
 .home-game {
   position: absolute;
   top: 40.4%;
   right: 3.53%;
   margin: 0 auto;
-  padding: 1%;
-  background: #E2D8D0;
+  background-color: #E2D8D0;
   display: flex;
   flex-direction: column;
+  z-index: 2;
+}
+
+#home-score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 89.3%;
+  height: 6.38%;
+  text-align: center;
+  background-color: #bbaca1;
+  border-top-left-radius: 0%;
+  border-top-right-radius: 0%;
+  border-bottom-right-radius: 10% 20%;
+  border-bottom-left-radius: 10% 20%;
+  z-index: 1;
+  font-size: 2vw;
+  font-family: Calibri;
+  font-weight: bold; 
+  color: #fff;
 }
 
 .home-game-board {
   border-radius : 3%;
+  z-index: inherit;
 }
 
 
@@ -55,21 +73,6 @@ ol, ul {
   display: table;
 }
 
-
-
-.cell {
-  border: 2px solid #caf0f8;
-  border-radius: 10%;
-  margin : 2px;
-  float: left;
-  text-align: center;
-  width : 16%;
-  height: 65px;
-  cursor: pointer;
-  color: #333333;
-  font-size: 250%;
-  font-weight: bold;
-}
 
 .home-hello {
   position: absolute;
@@ -149,10 +152,29 @@ ol, ul {
   top: 54.8%;
   left: 23.8%;
   margin: 0 auto;
-  padding: 1%;
-  background: #E2D8D0;
+  background-color: #E2D8D0;
   display: flex;
   flex-direction: column;
+  z-index: 2;
+}
+
+#mhome-score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 3%;
+  text-align: center;
+  background-color: #bbaca1;
+  border-top-left-radius: 0%;
+  border-top-right-radius: 0%;
+  border-bottom-right-radius: 10% 20%;
+  border-bottom-left-radius: 10% 20%;
+  z-index: 1;
+  font-size: 2vh;
+  font-family: Calibri;
+  font-weight: bold; 
+  color: #fff;
 }
 
 .mhome-game-board {

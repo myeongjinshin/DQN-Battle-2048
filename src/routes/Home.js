@@ -1,10 +1,12 @@
 import React from "react";
 import './Home.css';
-import { calcResult, calculateScore, isStuck } from "../components/Logic.js";
+import { calcResult, calculateScore, calculateMax, isStuck } from "../components/Logic.js";
 import { drawState , animationPath } from "../components/Drawing.js";
 import { Link } from "react-router-dom";
 
 var constants = require("../helpers/Constants.js");
+const playerColor = constants.player_color;
+const aiColor = constants.ai_color;
 
 const model1 = new Worker('Ai.js');
 model1.postMessage({"type":"message", "value":"start", "random": 1});
@@ -106,16 +108,41 @@ class Home extends React.Component {
       canvasHeight : canvasWidth,
     });
 
+    if(isMobile) {
+      document.getElementById("mhome-score").style.left = 0.238*window.innerWidth + this.state.canvasWidth/4;
+      document.getElementById("mhome-score").style.top = 0.548*window.innerHeight + this.state.canvasWidth;
+      document.getElementById("mhome-score").style.width = this.state.canvasWidth/2;
+      document.getElementById("mhome-score").style.backgroundColor = "#bbaca1";
+    } else {
+      document.getElementById("home-score").style.removeProperty('left');
+      document.getElementById("home-score").style.right = 0.0353*window.innerWidth + this.state.canvasWidth/4;
+      document.getElementById("home-score").style.top = 0.893*window.innerHeight;
+      document.getElementById("home-score").style.width = this.state.canvasWidth/2;
+      document.getElementById("home-score").style.backgroundColor = "#bbaca1";
+    }
     drawState(this.canvasRef.current, this.state.history[this.state.index].squares);
   }
 
   componentDidMount() {
+    const isMobile = window.innerWidth <= window.innerHeight * 0.84;
     //this.renderText("Welcome to Battle 2048", 50, "text1");
     this.ctx = this.canvasRef.current.getContext("2d");
     drawState(this.canvasRef.current, this.state.history[this.state.index].squares);
     const nxt = this.state.history[this.state.index].squares;
     if(this.state.winner === null) {
         setTimeout(() => model1.postMessage({"type":"state", "state":nxt}), 1000);
+    }
+    if(isMobile) {
+      document.getElementById("mhome-score").style.left = 0.238*window.innerWidth + this.state.canvasWidth/4;
+      document.getElementById("mhome-score").style.top = 0.548*window.innerHeight + this.state.canvasWidth;
+      document.getElementById("mhome-score").style.width = this.state.canvasWidth/2;
+      document.getElementById("mhome-score").style.backgroundColor = "#bbaca1";
+    } else {
+      document.getElementById("home-score").style.removeProperty('left');
+      document.getElementById("home-score").style.right = 0.0353*window.innerWidth + this.state.canvasWidth/4;
+      document.getElementById("home-score").style.top = 0.893*window.innerHeight;
+      document.getElementById("home-score").style.width = this.state.canvasWidth/2;
+      document.getElementById("home-score").style.backgroundColor = "#bbaca1";
     }
   }
 
@@ -180,9 +207,9 @@ class Home extends React.Component {
     const current = history[this.state.index];
 
     const [myScore, aiScore] = calculateScore(current.squares);
-    const scoreBoard = "(AI-1) "+myScore+" : "+aiScore+" (AI-2)";
 
     const isMobile = window.innerWidth <= window.innerHeight * 0.84;
+    const [myBest, aiBest] = calculateMax(current.squares);
 
     if(isMobile) {
       return (
@@ -190,11 +217,16 @@ class Home extends React.Component {
           <div className="mhome-game">
             <canvas ref={this.canvasRef} width={this.state.canvasWidth} height={this.state.canvasHeight} className="mhome-game-board"></canvas>
           </div>
+          <div id="mhome-score">
+            <span style={{color: playerColor[myBest]}}>{myScore}</span> 
+            <span>&nbsp;&nbsp;Score&nbsp;&nbsp;</span> 
+            <span style={{color: aiColor[aiBest]}}>{aiScore}</span>
+          </div>
           <div className="mhome-hello">Hello!</div>
           <div className="mhome-text1">Play Battle 2048</div>
           <div className="mhome-text2">With Ai or Players</div>
-          <div className="mhome-playbutton">play</div>
-          <div className="mhome-learnbutton">learn more</div>
+          <Link to="/game"><div className="mhome-playbutton">play</div></Link>
+          <Link to="/game"><div className="mhome-learnbutton">learn more</div></Link>
         </>
       );
     } else {
@@ -203,9 +235,14 @@ class Home extends React.Component {
           <div className="home-game">
             <canvas ref={this.canvasRef} width={this.state.canvasWidth} height={this.state.canvasHeight} className="home-game-board"></canvas>
           </div>
+          <div id="home-score">
+            <span style={{color: playerColor[myBest]}}>{myScore}</span> 
+            <span>&nbsp;&nbsp;Score&nbsp;&nbsp;</span> 
+            <span style={{color: aiColor[aiBest]}}>{aiScore}</span>
+          </div>
           <div className="home-hello">Hello!</div>
           <div className="home-text1">Play Battle 2048</div>
-          <div className="home-text2">With Ai Players</div>
+          <div className="home-text2">With Ai or Players</div>
           <Link to="/game"><div className="home-playbutton">play</div></Link>
           <Link to="/game"><div className="home-learnbutton">learn more</div></Link>
         </>
