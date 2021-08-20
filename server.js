@@ -18,13 +18,11 @@ io.on("connection", (socket) => {
     for(let i=0;i<msg.length;i++){
       fs.appendFileSync('./model/dataset/replay.txt', "\n"+JSON.stringify(msg[i]));
     }
-
   });
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
 });
-
 
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '/build/index.html'));

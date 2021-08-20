@@ -97,6 +97,7 @@ class Game extends React.Component {
     window.onresize = (e)=>this.handleResize(e);
     document.addEventListener('touchstart', handleTouchStart, false);        
     document.addEventListener('touchmove',(e) => this.handleTouchMove(e), false);
+
     update_layout();
   }
 
@@ -108,8 +109,7 @@ class Game extends React.Component {
     if (!xDown || !yDown) {
         return;
     }
-
-    let xUp = evt.touches[0].clientX;                                    
+    let xUp = evt.touches[0].clientX;
     let yUp = evt.touches[0].clientY;
     let xDiff = xDown - xUp;
     let yDiff = yDown - yUp;
@@ -123,10 +123,10 @@ class Game extends React.Component {
     let result = true; //맵에 변화를 주는지 여부
     if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
       if (xDiff > 0) result = this.handleAction(1);
-      else result = this.handleAction(0);                    
+      else result = this.handleAction(0);
     } else {
       if (yDiff > 0) result = this.handleAction(3);
-      else result = this.handleAction(2);                                                         
+      else result = this.handleAction(2);
     }
 
     if(result === false) return ;
@@ -217,8 +217,6 @@ class Game extends React.Component {
       index: this.state.index+1,
       winner:winner,
     });
-
-
 
     animationPath(this.canvasRef.current, current.squares, paths, nxt);
     return true;
