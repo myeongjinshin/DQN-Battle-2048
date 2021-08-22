@@ -62,7 +62,7 @@ export function finishRecord(winner, state)
 function convert(state){
     let ret = Array(map_size * map_size * 2).fill(0);
     const max = Math.max.apply(null, state);
-    for(let i=0;i<map_size * map_size;i++){
+    for(let i=0;i<map_size * map_size * 2;i++){
         if(state[i] > 0){ //ai 먼저
             ret[i] = Math.pow(2, state[i]-max);
         }
