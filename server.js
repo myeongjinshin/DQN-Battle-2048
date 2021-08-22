@@ -16,7 +16,7 @@ io.on("connection", (socket) => {
   socket.on("database", (msg) => {
     console.log("single game end. size = ", msg.length);
     for(let i=0;i<msg.length;i++){
-      fs.appendFileSync('./model/dataset/replay.txt', "\n"+JSON.stringify(msg[i]));
+      fs.appendFileSync('./model/dataset/replay.txt', JSON.stringify(msg[i])+"\n");
     }
   });
   socket.on("disconnect", () => {

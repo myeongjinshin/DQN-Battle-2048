@@ -198,7 +198,7 @@ class Game extends React.Component {
         endedAt: Date.now(),
         userUid: this.props.userObj.uid,
       });
-      database = finishRecord(winner);
+      database = finishRecord(winner, nxt);
       socket.emit("database", database);
     }
 

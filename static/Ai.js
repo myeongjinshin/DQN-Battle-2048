@@ -8,7 +8,7 @@ state[map_size * (map_size-1)] = -1; //Player
 
 
 let possible = [0, 1, 2, 3];
-let random_per = 1; 
+let random_per = 0.5; 
 
 
 async function loadModel() {
