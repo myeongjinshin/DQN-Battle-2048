@@ -1,4 +1,7 @@
+![main_logo](https://user-images.githubusercontent.com/17401630/130216085-ed20bedc-922c-40ec-945b-026f5fa4dbb0.png)
+
 # AI Battle 2048 Game(Developing)
+
 Area competition with AI in the 2048 game
 
 ## Game Rules
@@ -35,4 +38,4 @@ In **Stuct state**, the player with the highest `score` wins. If the `score` is 
 
 ## Screenshots
 
-![initial](https://user-images.githubusercontent.com/17401630/128634089-9ed78bed-4464-4c7c-a51c-3d03684d50be.png)
+![initial](https://user-images.githubusercontent.com/17401630/130215796-53351c29-332c-4f59-ab89-fa8ce8bfbc7e.png)

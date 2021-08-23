@@ -25,8 +25,8 @@ export function record(state, action, next_state, turn)
     const [player_bef, ai_bef] = calculateScore(database[i]["state"]);
     const [player_aft, ai_aft] = calculateScore(state);
 
-    database[i]["reward"] = ai_aft - player_aft - ai_bef + player_bef
-    
+    database[i]["reward"] = (ai_aft - player_aft - ai_bef + player_bef)/(player_aft + ai_aft)*200;
+    console.log("reward = ", database[i]["reward"]);
     database.push({
         "state" : state,
         "action" : action,
@@ -36,18 +36,20 @@ export function record(state, action, next_state, turn)
     });
 }
 
-export function finishRecord(winner, turn)
+export function finishRecord(winner, state)
 {
     if (winner == true) {
         const i = database.length-1;
-        const [player, ai] = calculateScore(database[i]["state"]);
-        database[i]["reward"] = -(player - ai + 300);
+        const [player, ai] = calculateScore(state);
+        database[i]["reward"] = -((player - ai)/(player+ai)*200 + 200);
+        database[i]["next_state"] = state
         database[i]["done"] = true;
     }
     else {
         const i = database.length-1;
-        const [player, ai] = calculateScore(database[i]["state"]);
-        database[i]["reward"] = (ai - player + 300);
+        const [player, ai] = calculateScore(state);
+        database[i]["reward"] = ((ai - player)/(ai+player)*200 + 200);
+        database[i]["next_state"] = state
         database[i]["done"] = true;
     }
     for(let i=0;i<database.length;i++){
@@ -59,12 +61,13 @@ export function finishRecord(winner, turn)
 
 function convert(state){
     let ret = Array(map_size * map_size * 2).fill(0);
-    for(let i=0;i<map_size * map_size;i++){
-        if(state[i] > 0){
-            ret[i] = state[i];
+    const max = Math.max.apply(null, state);
+    for(let i=0;i<map_size * map_size * 2;i++){
+        if(state[i] > 0){ //ai 먼저
+            ret[i] = Math.pow(2, state[i]-max);
         }
-        else if(state[i] < 0){
-            ret[i+map_size*map_size] = -state[i];
+        else if(state[i] < 0){ //뒤에 player
+            ret[i+map_size*map_size] = Math.pow(2, -state[i]-max);
         }
     }
     return ret;
