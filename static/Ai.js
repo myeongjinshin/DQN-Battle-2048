@@ -8,11 +8,11 @@ state[map_size * (map_size-1)] = -1; //Player
 
 
 let possible = [0, 1, 2, 3];
-let random_per = 0.5; 
+let random_per = 0.08; 
 
 
 async function loadModel() {
-    model = await tf.loadLayersModel("http://localhost:8000/model.json");
+    model = await tf.loadLayersModel("http://localhost:8000/models/day1/model.json");
 }
 
 onmessage = function(e) {
@@ -53,16 +53,17 @@ function predict(){
         return ;
     }
     const input = convert(state);
+    console.log("input = ", input);
     const prediction = model.predict(tf.tensor([input])).dataSync();
+    console.log("ai predict", prediction);
 
     action = possible.reduce((i, j) => prediction[i]>prediction[j]?i:j);
-
-    //action = prediction.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
-
+    console.log("ai action", action);
     if (Math.random() < random_per) {
          //choose possible action
         action = possible[Math.floor(Math.random()*possible.length)];
     }
+    console.log("ai real action", action);
     postMessage({
         "type": "action",
         "value": action,
@@ -80,15 +81,19 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-
 function convert(state){
     let ret = Array(map_size * map_size * 2).fill(0);
+    let max = 0
     for(let i=0;i<map_size * map_size;i++){
-        if(state[i] > 0){
-            ret[i] = state[i];
+        if(state[i]>0&&max<state[i]) max = state[i];
+        if(state[i]<0&&max<-state[i]) max = -state[i];
+    }
+    for(let i=0;i<map_size * map_size;i++){
+        if(state[i] > 0){ //ai 먼저
+            ret[i] = Math.pow(2, state[i]-max);
         }
-        else if(state[i] < 0){
-            ret[i+map_size*map_size] = -state[i];
+        else if(state[i] < 0){ //뒤에 player
+            ret[i+map_size*map_size] = Math.pow(2, -state[i]-max);
         }
     }
     return ret;

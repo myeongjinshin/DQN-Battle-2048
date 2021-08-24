@@ -26,6 +26,26 @@ def normal(state):
     return state
 
 f = open("replay.txt")
+ma = -10000
+mi = 10000
+while True:
+    line = f.readline().strip()
+    if not line: break
+    line = line.replace("false", "False")
+    line = line.replace("true", "True")
+    a = eval(line)
+    reward = a["reward"]
+    ma = max(ma, reward)
+    mi = min(mi, reward)
+    if reward < -500 :
+        print("reward : ", reward)
+    if reward > 500 :
+        print("reward : ", reward)
+    
+
+print("max=",ma,"mi=",mi)
+"""
+f = open("replay.txt")
 w = open("changed.txt", "w")
 while True:
     line = f.readline().strip()
@@ -53,3 +73,4 @@ while True:
 
 
 
+"""

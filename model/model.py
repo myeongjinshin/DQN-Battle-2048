@@ -32,7 +32,7 @@ class DQNAgent:
         # DQN 하이퍼파라미터
         self.map_width = props["map_width"]
         self.action_size = 4
-        self.state_size = self.map_width ** 2
+        self.state_size = (self.map_width ** 2) * 2
         self.discount_factor = props["discount_factor"]
         self.learning_rate = props["learning_rate"]
         self.epsilon = props["epsilon"]
@@ -57,7 +57,7 @@ class DQNAgent:
 
     def build_model(self):
         model = keras.models.Sequential()
-        model.add(layers.Dense(24, input_dim=self.state_size*2, activation="sigmoid", kernel_initializer="he_uniform"))
+        model.add(layers.Dense(24, input_dim=self.state_size, activation="relu", kernel_initializer="he_uniform"))
         model.add(layers.Dense(24, activation="relu", kernel_initializer="he_uniform"))
         model.add(layers.Dense(24, activation="relu", kernel_initializer="he_uniform"))
         model.add(
@@ -75,14 +75,6 @@ class DQNAgent:
     def update_target_model(self):
         self.target_model.set_weights(self.model.get_weights())
 
-    # 입실론 탐욕 정책으로 행동 선택
-    def get_action(self, state):
-        if np.random.rand() <= self.epsilon:
-            return random.randrange(self.map_width)
-        else:
-            q_value = self.model.predict(state)
-            return np.argmax(q_value[0])
-
     def append_sample(self, state, action, reward, next_state, done):
         self.memory.append(
             {
@@ -99,43 +91,43 @@ class DQNAgent:
         if self.epsilon > self.epsilon_min:
             self.epsilon *= self.epsilon_decay
 
-        # 메모리에서 배치 크기만큼 무작위로 샘플 추출
-        mini_batch = random.sample(self.memory, self.batch_size)
+        tot_loss = 0
+        for st in range(0, len(self.memory), self.batch_size) :
+            mini_batch = self.memory[st:st + self.batch_size]
 
-        states = np.zeros((self.batch_size, self.state_size*2))
-        next_states = np.zeros((self.batch_size, self.state_size*2))
-        actions, rewards, dones = [], [], []
+            states = np.zeros((len(mini_batch), self.state_size))
+            next_states = np.zeros((len(mini_batch), self.state_size))
+            actions, rewards, dones = [], [], []
 
-        for i in range(self.batch_size):
-            states[i] = mini_batch[i]["state"]
-            actions.append(mini_batch[i]["action"])
-            rewards.append(mini_batch[i]["reward"])
-            next_states[i] = mini_batch[i]["next_state"]
-            dones.append(mini_batch[i]["done"])
+            for i in range(len(mini_batch)):
+                states[i] = mini_batch[i]["state"]
+                actions.append(mini_batch[i]["action"])
+                rewards.append(mini_batch[i]["reward"])
+                next_states[i] = mini_batch[i]["next_state"]
+                dones.append(mini_batch[i]["done"])
 
-        # 현재 상태에 대한 모델의 큐함수
-        # 다음 상태에 대한 타깃 모델의 큐함수
-        target = self.model.predict(states)
-        target_val = self.target_model.predict(next_states)
+            target = self.model.predict(states)
+            target_val = self.target_model.predict(next_states)
 
-        # 벨만 최적 방정식을 이용한 업데이트 타깃
-        for i in range(self.batch_size):
-            if dones[i]:
-                target[i][actions[i]] = rewards[i]
-            else:
-                target[i][actions[i]] = rewards[i] + self.discount_factor * (np.amax(target_val[i]))
+            # 벨만 최적 방정식을 이용한 업데이트 타깃
+            for i in range(len(mini_batch)):
+                if dones[i]:
+                    target[i][actions[i]] = rewards[i]
+                else:
+                    target[i][actions[i]] = rewards[i] + self.discount_factor * (np.amax(target_val[i]))
 
-        self.model.fit(states, target, batch_size=self.batch_size, epochs=1, verbose=0)
-
+            hist = self.model.fit(states, target, batch_size=len(mini_batch), epochs=1)
+            tot_loss = tot_loss + hist.history['loss'][0]
+        return tot_loss
 
 if __name__ == "__main__":
     # DQN 에이전트 생성
     agent = DQNAgent()
 
     if len(agent.memory) >= agent.train_start:
-        for i in range(10000) :
-            if i % 100 == 99 :
-                print((i+1)//100,"% done... epsilon : ", agent.epsilon)
-            agent.train_model()
+        for i in range(200) :
+            train_loss = agent.train_model()
+            print((i+1)//2,"% done... loss : ",train_loss)
+
         agent.model.save_weights("./history/"+agent.model_name)
         tfjs.converters.save_keras_model(agent.model, "./history")

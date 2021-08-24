@@ -38,17 +38,17 @@ export function record(state, action, next_state, turn)
 
 export function finishRecord(winner, state)
 {
-    if (winner == true) {
+    if (winner == true) { //player승 -> reward음수
         const i = database.length-1;
         const [player, ai] = calculateScore(state);
-        database[i]["reward"] = -((player - ai)/(player+ai)*200 + 200);
+        database[i]["reward"] = -((player - ai)/(player+ai)*200 + 100);
         database[i]["next_state"] = state
         database[i]["done"] = true;
     }
     else {
         const i = database.length-1;
         const [player, ai] = calculateScore(state);
-        database[i]["reward"] = ((ai - player)/(ai+player)*200 + 200);
+        database[i]["reward"] = ((ai - player)/(ai+player)*200 + 100);
         database[i]["next_state"] = state
         database[i]["done"] = true;
     }
@@ -61,8 +61,12 @@ export function finishRecord(winner, state)
 
 function convert(state){
     let ret = Array(map_size * map_size * 2).fill(0);
-    const max = Math.max.apply(null, state);
-    for(let i=0;i<map_size * map_size * 2;i++){
+    let max = 0
+    for(let i=0;i<map_size * map_size;i++){
+        if(state[i]>0&&max<state[i]) max = state[i];
+        if(state[i]<0&&max<-state[i]) max = -state[i];
+    }
+    for(let i=0;i<map_size * map_size;i++){
         if(state[i] > 0){ //ai 먼저
             ret[i] = Math.pow(2, state[i]-max);
         }
