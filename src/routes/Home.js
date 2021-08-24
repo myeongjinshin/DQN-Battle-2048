@@ -223,8 +223,16 @@ class Home extends React.Component {
             <span style={{color: aiColor[aiBest]}}>{aiScore}</span>
           </div>
           <div className="mhome-hello">Hello!</div>
-          <div className="mhome-text1">Play Battle 2048</div>
-          <div className="mhome-text2">With Ai or Players</div>
+          <div className="mhome-text1">
+            <span>Play</span>
+            <span style={{color: "#796c65"}}>&nbsp;Battle 2048</span>
+          </div>
+          <div className="mhome-text2">
+            <span style={{color: "#796c65"}}>With </span>
+            <span>Ai </span> 
+            <span style={{color: "#796c65"}}>or </span> 
+            <span>Players </span>
+          </div>
           <Link to="/game"><div className="mhome-playbutton">play</div></Link>
           <Link to="/game"><div className="mhome-learnbutton">learn more</div></Link>
         </>
@@ -241,8 +249,16 @@ class Home extends React.Component {
             <span style={{color: aiColor[aiBest]}}>{aiScore}</span>
           </div>
           <div className="home-hello">Hello!</div>
-          <div className="home-text1">Play Battle 2048</div>
-          <div className="home-text2">With Ai or Players</div>
+          <div className="home-text1">
+            <span>Play</span>
+            <span style={{color: "#796c65"}}>&nbsp;Battle 2048</span>
+          </div>
+          <div className="home-text2">
+            <span style={{color: "#796c65"}}>With </span>
+            <span>Ai </span> 
+            <span style={{color: "#796c65"}}>or </span> 
+            <span>Players </span>
+          </div>
           <Link to="/game"><div className="home-playbutton">play</div></Link>
           <Link to="/game"><div className="home-learnbutton">learn more</div></Link>
         </>

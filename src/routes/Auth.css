@@ -1,0 +1,426 @@
+body {
+  margin: 20px;
+  padding: 0;
+  font-family: sans-serif;
+  font: 14px;
+  background: #E2D8D0;
+}
+
+.authtitle {
+  display: flex;
+  position: absolute;
+  top: 15%;
+  left: 45%;
+  width: 10%;
+  height: 10%;
+  justify-content: center;
+  align-items: center;
+  font-size: 3.2vw;
+  font-family: Calibri;
+  font-weight: bold; 
+  color: #796c65;
+}
+
+.authemail {
+  position: absolute;
+  top: 28.7%;
+  left: 32%;
+  width: 36%;
+  height: 8.5%;
+  font-size: 1.2vw;
+  border-radius: 10px;
+  border-style: hidden;
+}
+
+.authpw {
+  position: absolute;
+  top: 39.3%;
+  left: 32%;
+  width: 36%;
+  height: 8.5%;
+  font-size: 1.2vw;
+  border-radius: 10px;
+  border-style: hidden;
+}
+
+.authforgot {
+  display: flex;
+  position: absolute;
+  top: 48.4%;
+  left: 33.7%;
+  width: 7.5%;
+  height: 5.3%;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold; 
+}
+
+.authswitch {
+  display: flex;
+  position: absolute;
+  top: 48.4%;
+  right: 33.7%;
+  width: 7.5%;
+  height: 5.3%;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold; 
+}
+
+.authsubmit {
+  position: absolute;
+  top: 55%;
+  left: 33.7%;
+  width: 15%; 
+  height: 6.38%;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold; 
+  font-size: 1.2vw;
+}
+
+.authbtn {
+  position: absolute;
+  top: 55%;
+  right: 33.7%;
+  width: 15%; 
+  height: 6.38%;
+  background-color: white;
+  border-radius: 5px;
+  font-weight: bold; 
+  font-size: 1vw;
+}
+
+.autherror {
+  display: flex;
+  position: absolute;
+  top: 65%;
+  left: 0%;
+  width: 100%;
+  color: red;
+  font-weight: bold; 
+  font-size: 0.3vw;
+  justify-content: center;
+  align-items: center;
+} 
+
+.regtitle {
+  display: flex;
+  position: absolute;
+  top: 15%;
+  left: 45%;
+  width: 10%;
+  height: 10%;
+  justify-content: center;
+  align-items: center;
+  font-size: 3.2vw;
+  font-family: Calibri;
+  font-weight: bold; 
+  color: #796c65;
+}
+
+.regid {
+  position: absolute;
+  top: 28.7%;
+  left: 32%;
+  width: 36%;
+  height: 8.5%;
+  font-size: 1.2vw;
+  border-radius: 10px;
+  border-style: hidden;
+}
+
+.regemail {
+  position: absolute;
+  top: 39.3%;
+  left: 32%;
+  width: 36%;
+  height: 8.5%;
+  font-size: 1.2vw;
+  border-radius: 10px;
+  border-style: hidden;
+}
+
+.regpw {
+  position: absolute;
+  top: 49.9%;
+  left: 32%;
+  width: 36%;
+  height: 8.5%;
+  font-size: 1.2vw;
+  border-radius: 10px;
+  border-style: hidden;
+}
+
+.regforgot {
+  display: flex;
+  position: absolute;
+  top: 59%;
+  left: 33.7%;
+  width: 7.5%;
+  height: 5.3%;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold; 
+}
+
+.regswitch {
+  display: flex;
+  position: absolute;
+  top: 59%;
+  right: 33.7%;
+  width: 7.5%;
+  height: 5.3%;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold; 
+}
+
+.regsubmit {
+  position: absolute;
+  top: 65.6%;
+  left: 33.7%;
+  width: 15%; 
+  height: 6.38%;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold; 
+  font-size: 1.2vw;
+}
+
+.regbtn {
+  position: absolute;
+  top: 65.6%;
+  right: 33.7%;
+  width: 15%; 
+  height: 6.38%;
+  background-color: white;
+  border-radius: 5px;
+  font-weight: bold; 
+  font-size: 1vw;
+}
+
+.regerror {
+  display: flex;
+  position: absolute;
+  top: 77%;
+  left: 0%;
+  width: 100%;
+  color: red;
+  font-weight: bold; 
+  font-size: 0.3vw;
+  justify-content: center;
+  align-items: center;
+}
+
+.mauthtitle {
+  display: flex;
+  position: absolute;
+  top: 15%;
+  left: 35%;
+  width: 30%;
+  height: 10%;
+  justify-content: center;
+  align-items: center;
+  font-size: 3.2vh;
+  font-family: Calibri;
+  font-weight: bold; 
+  color: #796c65;
+}
+
+.mauthemail {
+  position: absolute;
+  top: 28.7%;
+  left: 14%;
+  width: 72%;
+  height: 8.5%;
+  font-size: 1.2vh;
+  border-radius: 10px;
+  border-style: hidden;
+}
+
+.mauthpw {
+  position: absolute;
+  top: 39.3%;
+  left: 14%;
+  width: 72%;
+  height: 8.5%;
+  font-size: 1.2vh;
+  border-radius: 10px;
+  border-style: hidden;
+}
+
+.mauthforgot {
+  display: flex;
+  position: absolute;
+  top: 48.4%;
+  left: 15%;
+  width: 15%;
+  height: 5.3%;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold; 
+}
+
+.mauthswitch {
+  display: flex;
+  position: absolute;
+  top: 48.4%;
+  right: 15%;
+  width: 15%;
+  height: 5.3%;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold; 
+}
+
+.mauthsubmit {
+  position: absolute;
+  top: 55%;
+  left: 15%;
+  width: 30%; 
+  height: 6.38%;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold; 
+  font-size: 1.2vh;
+}
+
+.mauthbtn {
+  position: absolute;
+  top: 55%;
+  right: 15%;
+  width: 30%; 
+  height: 6.38%;
+  background-color: white;
+  border-radius: 5px;
+  font-weight: bold; 
+  font-size: 1vh;
+}
+
+
+.mautherror {
+  display: flex;
+  position: absolute;
+  top: 65%;
+  left: 10%;
+  width: 80%;
+  color: red;
+  font-weight: bold; 
+  font-size: 1vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.mregtitle {
+  display: flex;
+  position: absolute;
+  top: 15%;
+  left: 35%;
+  width: 30%;
+  height: 10%;
+  justify-content: center;
+  align-items: center;
+  font-size: 3.2vh;
+  font-family: Calibri;
+  font-weight: bold; 
+  color: #796c65;
+}
+
+.mregid {
+  position: absolute;
+  top: 28.7%;
+  left: 14%;
+  width: 72%;
+  height: 8.5%;
+  font-size: 1.2vh;
+  border-radius: 10px;
+  border-style: hidden;
+}
+
+.mregemail {
+  position: absolute;
+  top: 39.3%;
+  left: 14%;
+  width: 72%;
+  height: 8.5%;
+  font-size: 1.2vh;
+  border-radius: 10px;
+  border-style: hidden;
+}
+
+.mregpw {
+  position: absolute;
+  top: 49.9%;
+  left: 14%;
+  width: 72%;
+  height: 8.5%;
+  font-size: 1.2vh;
+  border-radius: 10px;
+  border-style: hidden;
+}
+
+.mregforgot {
+  display: flex;
+  position: absolute;
+  top: 59%;
+  left: 15%;
+  width: 15%;
+  height: 5.3%;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold; 
+}
+
+.mregswitch {
+  display: flex;
+  position: absolute;
+  top: 59%;
+  right: 15%;
+  width: 15%;
+  height: 5.3%;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold; 
+}
+
+.mregsubmit {
+  position: absolute;
+  top: 65.6%;
+  left: 15%;
+  width: 30%; 
+  height: 6.38%;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold; 
+  font-size: 1.2vh;
+}
+
+.mregbtn {
+  position: absolute;
+  top: 65.6%;
+  right: 15%;
+  width: 30%; 
+  height: 6.38%;
+  background-color: white;
+  border-radius: 5px;
+  font-weight: bold; 
+  font-size: 1vh;
+}
+
+.mregerror {
+  display: flex;
+  position: absolute;
+  top: 77%;
+  left: 10%;
+  width: 80%;
+  color: red;
+  font-weight: bold; 
+  font-size: 1vh;
+  justify-content: center;
+  align-items: center;
+}
