@@ -53,17 +53,13 @@ function predict(){
         return ;
     }
     const input = convert(state);
-    console.log("input = ", input);
     const prediction = model.predict(tf.tensor([input])).dataSync();
-    console.log("ai predict", prediction);
 
     action = possible.reduce((i, j) => prediction[i]>prediction[j]?i:j);
-    console.log("ai action", action);
     if (Math.random() < random_per) {
          //choose possible action
         action = possible[Math.floor(Math.random()*possible.length)];
     }
-    console.log("ai real action", action);
     postMessage({
         "type": "action",
         "value": action,

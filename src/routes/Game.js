@@ -3,7 +3,7 @@ import './Game.css'
 import io from "socket.io-client";
 import { calcResult, calculateScore, calculateMax, isStuck } from "../components/Logic.js";
 import { drawState , animationPath } from "../components/Drawing.js";
-import { record, finishRecord } from "../components/Recorder";
+import MyRecorder from "../components/Recorder";
 import { dbService } from "../fbase";
 
 var constants = require("../helpers/Constants.js");
@@ -32,6 +32,7 @@ class Game extends React.Component {
     //Mount Canvas
     this.canvasRef = React.createRef();
     this.ctx = null;
+    this.recorder = new MyRecorder();
 
     let initial_state = Array(map_size * map_size).fill(0);
     initial_state[map_size-1] = 1; // AI
@@ -176,7 +177,7 @@ class Game extends React.Component {
       return false;
     }
 
-    record(current.squares, action, nxt, current.turn);
+    this.recorder.record(current.squares, action, nxt, current.turn);
 
     let winner = null;
     const [myScore, aiScore] = calculateScore(nxt);
@@ -198,7 +199,7 @@ class Game extends React.Component {
         endedAt: Date.now(),
         userUid: this.props.userObj.uid,
       });
-      database = finishRecord(winner, nxt);
+      database = this.recorder.finishRecord(winner, nxt);
       socket.emit("database", database);
     }
 
