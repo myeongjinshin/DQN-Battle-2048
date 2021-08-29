@@ -116,7 +116,7 @@ class DQNAgent:
                 else:
                     target[i][actions[i]] = rewards[i] + self.discount_factor * (np.amax(target_val[i]))
 
-            hist = self.model.fit(states, target, batch_size=len(mini_batch), epochs=1)
+            hist = self.model.fit(states, target, batch_size=len(mini_batch), epochs=1, verbose=0)
             tot_loss = tot_loss + hist.history['loss'][0]
         return tot_loss
 
@@ -125,9 +125,9 @@ if __name__ == "__main__":
     agent = DQNAgent()
 
     if len(agent.memory) >= agent.train_start:
-        for i in range(200) :
+        for i in range(500) :
             train_loss = agent.train_model()
-            print((i+1)//2,"% done... loss : ",train_loss)
+            print((i+1)//5,"% done... loss : ",train_loss)
 
         agent.model.save_weights("./history/"+agent.model_name)
         tfjs.converters.save_keras_model(agent.model, "./history")

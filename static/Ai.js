@@ -54,7 +54,7 @@ function predict(){
     }
     const input = convert(state);
     const prediction = model.predict(tf.tensor([input])).dataSync();
-
+    console.log("ai predict", prediction);
     action = possible.reduce((i, j) => prediction[i]>prediction[j]?i:j);
     if (Math.random() < random_per) {
          //choose possible action
