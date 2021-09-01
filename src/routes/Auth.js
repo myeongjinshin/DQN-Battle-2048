@@ -52,7 +52,7 @@ const Auth = () => {
             await authService.createUserWithEmailAndPassword(email, password).then(result => {
                 user_uid = result.user.uid;
             });
-            await dbService.collection("user_info").add({
+            await dbService.collection("user_info").doc(user_uid).set({
                 uid: user_uid,
                 id: id,
                 email: email,
@@ -95,7 +95,7 @@ const Auth = () => {
             is_new = result.additionalUserInfo.isNewUser;
         });
         if(is_new) {
-            await dbService.collection("user_info").add({
+            await dbService.collection("user_info").doc(user_uid).set({
                 uid: user_uid,
                 id: user_email.substring(0, user_email.indexOf("@")),
                 email: user_email,
