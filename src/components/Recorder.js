@@ -3,13 +3,21 @@ import { calculateScore } from "./Logic.js";
 
 export default class MyRecorder {
     constructor(){
-        this.database = []
+        this.replay = [] //모든 기록 저장
+        this.database = [] //학습용 기록
         this.map_size = 5;
         this.zeros = Array(this.map_size * this.map_size).fill(0);
     }
     record(state, action, next_state, turn)
     {
-        if (turn == true) {
+        this.replay.push({
+            "state" : state,
+            "action" : action,
+            "next_state" : next_state,
+            "turn" : turn,
+            "done" : false
+        });
+        if (turn == true){
             return ;
         }
         if(this.database.length == 0){
@@ -57,7 +65,11 @@ export default class MyRecorder {
             this.database[i]["state"] = this.convert(this.database[i]["state"]);
             this.database[i]["next_state"] = this.convert(this.database[i]["next_state"]);
         }
-        return this.database;
+        const i = this.replay.length-1;
+        this.replay[i]["done"] = true;
+        console.log("dataset = ", this.database);
+        console.log("replay : ", this.replay);
+        return [this.database, this.replay];
     }
     convert(state){
         let ret = Array(this.map_size * this.map_size * 2).fill(0);

@@ -29,6 +29,9 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, ra
 
 function drawGrid(canvas){
     const ctx = canvas.getContext('2d');
+    ctx.rect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle="#bbaca1";
+    ctx.fill()
     const square_size = ( canvas.width - padding * (map_size+1) ) / map_size;
   
     //drawing grid
@@ -65,9 +68,6 @@ export function drawState(canvas, state){
     const square_size = ( canvas.width - padding * (map_size+1) ) / map_size;
   
     //drawing grid
-    ctx.rect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle="#bbaca1";
-    ctx.fill()
     drawGrid(canvas);
     //drawing squares
     for( let i = 0; i < map_size; i++) {
@@ -110,16 +110,6 @@ export function animationPath(canvas, state, paths, next_state) {
     let cur = 30;
 
     const animate = setInterval(() => {
-        for (let i = 0;i<paths.length;i++){
-            //row col row col
-            const col = ( paths[i][1] * cur + paths[i][3] * (frame-cur) ) / frame;
-            const row = ( paths[i][0] * cur + paths[i][2] * (frame-cur) ) / frame;
-            const x = padding * (col + 1) + square_size * col;
-            const y = padding * (row + 1) + square_size * row;
-            ctx.roundRect(x, y, square_size, square_size, square_round);
-            ctx.fillStyle = "#bbaca1";
-            ctx.fill();
-        }
         drawGrid(canvas);
         cur--;
         for (let i = 0;i<paths.length;i++){

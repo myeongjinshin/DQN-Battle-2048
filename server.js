@@ -13,12 +13,22 @@ app.use(express.static('static'));
 
 io.on("connection", (socket) => {
   console.log("a user connected");
+
   socket.on("database", (msg) => {
-    console.log("single game end. size = ", msg.length);
+    console.log("database size = ", msg.length);
+    for(let i=0;i<msg.length;i++){
+      fs.appendFileSync('./model/dataset/dataset.txt', JSON.stringify(msg[i])+"\n");
+    }
+  });
+  
+  socket.on("replay", (msg) => {
+    console.log("replay size = ", msg.length);
     for(let i=0;i<msg.length;i++){
       fs.appendFileSync('./model/dataset/replay.txt', JSON.stringify(msg[i])+"\n");
     }
   });
+
+
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });

@@ -35,16 +35,14 @@ onmessage = function (e) {
       console.log("possible = ", possible);
       predict();
     }
-  } else if (data["type"] == "state") {
-    state = data["state"];
-    possible = [0, 1, 2, 3];
-    predict();
-  }
-};
-
-function predict() {
-  if (possible.length == 0) {
-    console.log("model can't do anything");
+    const input = convert(state);
+    const prediction = model.predict(tf.tensor([input])).dataSync();
+    console.log("ai predict", prediction);
+    action = possible.reduce((i, j) => prediction[i]>prediction[j]?i:j);
+    if (Math.random() < random_per) {
+         //choose possible action
+        action = possible[Math.floor(Math.random()*possible.length)];
+    }
     postMessage({
       type: "message",
       value: "lose",

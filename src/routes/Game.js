@@ -19,10 +19,9 @@ const aiTextColor = constants.ai_text_color;
 
 const socket = io();
 
-const model = new Worker("Ai.js");
-model.postMessage({ type: "message", value: "start", random: 1 });
+const model = new Worker('Ai.js');
+model.postMessage({"type":"message", "value":"start", "random":0});
 
-let database = [];
 const map_size = constants.map_size;
 let pause = false;
 
@@ -72,6 +71,9 @@ class Game extends React.Component {
             action: data["value"],
             state: current.squares,
           });
+        }
+        else {
+          setTimeout(disablePause, 250);
         }
       }
     };
@@ -186,8 +188,7 @@ class Game extends React.Component {
     const nxt = this.state.history[this.state.index].squares;
     if (this.state.winner === null) {
       pause = true;
-      setTimeout(disablePause, 1400);
-      setTimeout(() => model.postMessage({ type: "state", state: nxt }), 1000);
+      setTimeout(() => model.postMessage({"type":"state", "state":nxt}), 1000);
     }
   }
 
@@ -244,8 +245,9 @@ class Game extends React.Component {
         });
       
       }
-      database = this.recorder.finishRecord(winner, nxt);
+      const [database, replay] = this.recorder.finishRecord(winner, nxt);
       socket.emit("database", database);
+      socket.emit("replay", replay);
     }
 
     const [myBest, aiBest] = calculateMax(nxt);
