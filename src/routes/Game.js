@@ -16,7 +16,7 @@ const aiTextColor = constants.ai_text_color;
 const socket = io();
 
 const model = new Worker('Ai.js');
-model.postMessage({"type":"message", "value":"start", "random":0});
+model.postMessage({"type":"message", "value":"start", "random":1});
 
 const map_size = constants.map_size;
 let pause = false;

@@ -47,44 +47,47 @@ export default class MyRecorder {
     }
     finishRecord(winner, state)
     {
+        const i = this.database.length-1;
+        const [player, ai] = calculateScore(state);
         if (winner == true) { //player승 -> reward음수
-            const i = this.database.length-1;
-            const [player, ai] = calculateScore(state);
             this.database[i]["reward"] = -((player - ai)/(player+ai)*200 + 100);
-            this.database[i]["next_state"] = state
-            this.database[i]["done"] = true;
         }
         else {
-            const i = this.database.length-1;
-            const [player, ai] = calculateScore(state);
             this.database[i]["reward"] = ((ai - player)/(ai+player)*200 + 100);
-            this.database[i]["next_state"] = state
-            this.database[i]["done"] = true;
         }
+        this.database[i]["next_state"] = state
+        this.database[i]["done"] = true;
+
         for(let i=0;i<this.database.length;i++){
             this.database[i]["state"] = this.convert(this.database[i]["state"]);
             this.database[i]["next_state"] = this.convert(this.database[i]["next_state"]);
         }
-        const i = this.replay.length-1;
-        this.replay[i]["done"] = true;
+        const j = this.replay.length-1;
+        this.replay[j]["done"] = true;
         console.log("dataset = ", this.database);
         console.log("replay : ", this.replay);
         return [this.database, this.replay];
     }
     convert(state){
-        let ret = Array(this.map_size * this.map_size * 2).fill(0);
-        let max = 0
-        for(let i=0;i<this.map_size * this.map_size;i++){
-            if(state[i]>0&&max<state[i]) max = state[i];
-            if(state[i]<0&&max<-state[i]) max = -state[i];
-        }
-        for(let i=0;i<this.map_size * this.map_size;i++){
-            if(state[i] > 0){ //ai 먼저
-                ret[i] = Math.pow(2, state[i]-max);
+        let ret = [];
+        let ind = 0;
+        console.log("state = ", state);
+        for(let i=0;i<this.map_size;i++){
+            let a = [];
+            for(let j=0;j<this.map_size;j++){
+                let v = state[ind];
+                let tmp = [];
+                for(let k=0;k<32;k++) tmp.push(0);
+                if(v>0){
+                    tmp[v-1] = 1
+                }
+                else if(v < 0){
+                    tmp[-v-1+16] = 1
+                }
+                a.push(tmp);
+                ind = ind+1;
             }
-            else if(state[i] < 0){ //뒤에 player
-                ret[i+this.map_size*this.map_size] = Math.pow(2, -state[i]-max);
-            }
+            ret.push(a);
         }
         return ret;
     }

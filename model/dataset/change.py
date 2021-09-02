@@ -1,3 +1,5 @@
+import numpy as np
+
 def calc_point(state):
     pscore=0
     aiscore=0
@@ -13,9 +15,6 @@ def calc_reward(bef_state, aft_state, done):
     ret = (aft_ai-aft_p) - (bef_ai-bef_p)
     ret = ret / (aft_p+aft_ai)
     ret = ret * 300
-    print(bef_state)
-    print(aft_state)
-    print(ret, bef_p, bef_ai, aft_p, aft_ai)
     return ret
 
 def normal(state):
@@ -25,28 +24,35 @@ def normal(state):
         state[i] = 2**(state[i]-ma)
     return state
 
-f = open("replay.txt")
-ma = -10000
-mi = 10000
-while True:
-    line = f.readline().strip()
-    if not line: break
-    line = line.replace("false", "False")
-    line = line.replace("true", "True")
-    a = eval(line)
-    reward = a["reward"]
-    ma = max(ma, reward)
-    mi = min(mi, reward)
-    if reward < -500 :
-        print("reward : ", reward)
-    if reward > 500 :
-        print("reward : ", reward)
-    
+def reshape(state):
+    ret = []
+    a = []
+    b = []
+    for i in range(0, len(state)//2) :
+        tmp = [0 for i in range(25)]
+        if state[i] > 0 :
+            tmp[state[i]-]
+        tmp[state[i]-1] = 1
+        
+        b.append(state[i])
+        if i % 5 == 4 :
+            a.append(b)
+            b = []
+    ret.append(a);
+    b = []
+    a = []
+    for i in range(0, len(state)//2) :
+        b.append(state[i])
+        if i % 5 == 4 :
+            a.append(b)
+            b = []
+    ret.append(a)
+    return ret
 
-print("max=",ma,"mi=",mi)
-"""
-f = open("replay.txt")
+
+f = open("dataset.txt")
 w = open("changed.txt", "w")
+
 while True:
     line = f.readline().strip()
     if not line: break
@@ -59,18 +65,13 @@ while True:
     reward = calc_reward(bef_state, nxt_state, a["done"])
 
     wl = str({
-        "state":normal(bef_state),
+        "state":reshape(bef_state),
         "action":a["action"],
         "reward":a["reward"],
-        "nxt_state":normal(nxt_state),
+        "next_state":reshape(nxt_state),
         "done":a["done"]
         })
     wl = wl + "\n"
     wl.replace("False", "false")
     wl.replace("True", "true")
     w.write(wl)
-
-
-
-
-"""
