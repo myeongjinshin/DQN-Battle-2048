@@ -13,7 +13,7 @@ let random_per = 0.08;
 
 async function loadModel() {
   model = await tf.loadLayersModel(
-    "http://104.154.204.226:8000/models/day1/model.json"
+    "http://localhost:8000/models/day1/model.json"
   );
 }
 
