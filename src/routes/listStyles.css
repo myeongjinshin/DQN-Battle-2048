@@ -1,97 +1,97 @@
 #root {
-  height: 100%;
-  background: #E2D8D0;
+    height: 100%;
+    background: #e2d8d0;
 }
 html,
 body {
-  position: relative;
-  height: 100%;
+    position: relative;
+    height: 100%;
 }
 
 body {
-  background: #000000;
-  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  color: #000;
-  margin: 0;
-  padding: 0;
+    background: #000000;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #000;
+    margin: 0;
+    padding: 0;
 }
 
 .swiper-container {
-  width: 100%;
-  height: 100%;
-  margin-left: auto;
-  margin-right: auto;
+    width: 100%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .swiper-slide {
-  text-align: center;
-  font-size: 28px;
-  height: calc((90% - 60px) / 3);
-  border-radius: 5%;
-  position:relative;
+    text-align: center;
+    font-size: 28px;
+    height: calc((90% - 60px) / 3);
+    border-radius: 5%;
+    position: relative;
 
-  /* Center slide text vertically */
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
-  align-items: center;
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
 }
-  
+
 .swiper-content {
-  background: #f37c62;
-  position:relative;
-  flex-direction: column;
-  border-radius:8%;
-  width:80%;
-  height:80%;
+    background: #f37c62;
+    position: relative;
+    flex-direction: column;
+    border-radius: 8%;
+    width: 80%;
+    height: 80%;
 }
 
 .cleared-image {
-  position:absolute;
-  margin-left:-50%;
-  width:40%;
+    position: absolute;
+    margin-left: -50%;
+    width: 40%;
 }
 
 .day-number {
-  position:absolute;
-  font-size:500%;
-  color:#ffffff;
-  font-family:consolas;
-  margin-top:-5%;
-  margin-left:31%;
-  font-weight:550;
+    position: absolute;
+    font-size: 500%;
+    color: #ffffff;
+    font-family: consolas;
+    margin-top: -5%;
+    margin-left: 31%;
+    font-weight: 550;
 }
 
 .cleared-head {
-  position:absolute;
-  margin-top:-100%;
-  margin-left:12%;
-  font-size:80%;
-  color:#ffffff;
-  font-family:consolas;
-  font-weight:500;
+    position: absolute;
+    margin-top: -100%;
+    margin-left: 12%;
+    font-size: 80%;
+    color: #ffffff;
+    font-family: consolas;
+    font-weight: 500;
 }
 
-.cleared-number{
-  position:absolute;
-  font-size:100%;
-  color:#ffffff;
-  font-family:consolas;
-  font-weight:800;
+.cleared-number {
+    position: absolute;
+    font-size: 100%;
+    color: #ffffff;
+    font-family: consolas;
+    font-weight: 800;
 }
 
 #list-inside {
-  padding-top:10%;
-  width:100%;
-  height:100%;
-  background:#E2D8D0;
+    padding-top: 10%;
+    width: 100%;
+    height: 100%;
+    background: #e2d8d0;
 }

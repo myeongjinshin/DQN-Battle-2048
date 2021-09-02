@@ -4,6 +4,6 @@ export function setUserInfo(id, pw) {
 
 export function checkUserInfo(id, pw) {
     const dbPw = localStorage.getItem(id);
-    if(dbPw === pw) return true;
-    return false; 
+    if (dbPw === pw) return true;
+    return false;
 }

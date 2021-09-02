@@ -1,255 +1,252 @@
 body {
-  margin: 20px;
-  padding: 0;
-  font-family: sans-serif;
-  font: 14px;
-  background: #E2D8D0;
+    margin: 20px;
+    padding: 0;
+    font-family: sans-serif;
+    font: 14px;
+    background: #e2d8d0;
 }
 
-ol, ul {
-  padding-left: 30px;
+ol,
+ul {
+    padding-left: 30px;
 }
-
 
 .status {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .info {
-  display: block;
-  margin-top: 15px;
+    display: block;
+    margin-top: 15px;
 }
 
 .square:focus {
-  outline: none;
+    outline: none;
 }
 
-
 .home-game {
-  position: absolute;
-  top: 40.4%;
-  right: 3.53%;
-  margin: 0 auto;
-  background-color: #E2D8D0;
-  display: flex;
-  flex-direction: column;
-  z-index: 2;
+    position: absolute;
+    top: 40.4%;
+    right: 3.53%;
+    margin: 0 auto;
+    background-color: #e2d8d0;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
 }
 
 #home-score {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 89.3%;
-  height: 6.38%;
-  text-align: center;
-  background-color: #bbaca1;
-  border-top-left-radius: 0%;
-  border-top-right-radius: 0%;
-  border-bottom-right-radius: 10% 20%;
-  border-bottom-left-radius: 10% 20%;
-  z-index: 1;
-  font-size: 2vw;
-  font-family: Calibri;
-  font-weight: bold; 
-  color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 89.3%;
+    height: 6.38%;
+    text-align: center;
+    background-color: #bbaca1;
+    border-top-left-radius: 0%;
+    border-top-right-radius: 0%;
+    border-bottom-right-radius: 10% 20%;
+    border-bottom-left-radius: 10% 20%;
+    z-index: 1;
+    font-size: 2vw;
+    font-family: Calibri;
+    font-weight: bold;
+    color: #fff;
 }
 
 .home-game-board {
-  border-radius : 3%;
-  z-index: inherit;
+    border-radius: 3%;
+    z-index: inherit;
 }
 
-
-.board{
-  margin: auto;
-  padding-left : 13%;
+.board {
+    margin: auto;
+    padding-left: 13%;
 }
 
 .board-row:after {
-  clear: both;
-  content: "";
-  display: table;
+    clear: both;
+    content: "";
+    display: table;
 }
 
-
 .home-hello {
-  position: absolute;
-  left: 6.47%;
-  top: 21.3%;
-  width: 17.1%;
-  height: 14.9%;
-  text-align: left;
-  color: #E26140;
-  font-size: 5.6vw;
-  font-family: Calibri;
-  font-weight: bold; 
+    position: absolute;
+    left: 6.47%;
+    top: 21.3%;
+    width: 17.1%;
+    height: 14.9%;
+    text-align: left;
+    color: #e26140;
+    font-size: 5.6vw;
+    font-family: Calibri;
+    font-weight: bold;
 }
 
 .home-text1 {
-  position: absolute;
-  left: 6.47%;
-  top: 46.8%;
-  width: 32.4%;
-  height: 10.6%;
-  text-align: left;
-  color: #fff;
-  font-size: 4.2vw;
-  font-family: Calibri;
-  font-weight: bold; 
+    position: absolute;
+    left: 6.47%;
+    top: 46.8%;
+    width: 32.4%;
+    height: 10.6%;
+    text-align: left;
+    color: #fff;
+    font-size: 4.2vw;
+    font-family: Calibri;
+    font-weight: bold;
 }
 
 .home-text2 {
-  position: absolute;
-  left: 6.47%;
-  top: 57.4%;
-  width: 35.3%;
-  height: 10.6%;
-  text-align: left;
-  color: #fff;
-  font-size: 4.2vw;
-  font-family: Calibri;
-  font-weight: bold; 
+    position: absolute;
+    left: 6.47%;
+    top: 57.4%;
+    width: 35.3%;
+    height: 10.6%;
+    text-align: left;
+    color: #fff;
+    font-size: 4.2vw;
+    font-family: Calibri;
+    font-weight: bold;
 }
 
 .home-playbutton {
-  display: flex;
-  background-color: #1c2833;
-  position: absolute;
-  left: 7.65%;
-  top: 72.3%;
-  width: 7.65%;
-  height: 6.38%;
-  justify-content: center;
-  color: #fff;
-  font-size: 2.2vw;
-  font-family: Calibri;
-  font-weight: bold; 
-  border-radius : 7%;
-  align-items: center;
+    display: flex;
+    background-color: #1c2833;
+    position: absolute;
+    left: 7.65%;
+    top: 72.3%;
+    width: 7.65%;
+    height: 6.38%;
+    justify-content: center;
+    color: #fff;
+    font-size: 2.2vw;
+    font-family: Calibri;
+    font-weight: bold;
+    border-radius: 7%;
+    align-items: center;
 }
 
 .home-learnbutton {
-  display: flex;
-  background-color: #ebce74;
-  position: absolute;
-  left: 17.1%;
-  top: 72.3%;
-  width: 14.4%;
-  height: 6.38%;
-  justify-content: center;
-  color: #fff;
-  font-size: 2.2vw;
-  font-family: Calibri;
-  font-weight: bold; 
-  border-radius : 7%;
-  align-items: center;
+    display: flex;
+    background-color: #ebce74;
+    position: absolute;
+    left: 17.1%;
+    top: 72.3%;
+    width: 14.4%;
+    height: 6.38%;
+    justify-content: center;
+    color: #fff;
+    font-size: 2.2vw;
+    font-family: Calibri;
+    font-weight: bold;
+    border-radius: 7%;
+    align-items: center;
 }
 
 .mhome-game {
-  position: absolute;
-  top: 54.8%;
-  left: 23.8%;
-  margin: 0 auto;
-  background-color: #E2D8D0;
-  display: flex;
-  flex-direction: column;
-  z-index: 2;
+    position: absolute;
+    top: 54.8%;
+    left: 23.8%;
+    margin: 0 auto;
+    background-color: #e2d8d0;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
 }
 
 #mhome-score {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  height: 3%;
-  text-align: center;
-  background-color: #bbaca1;
-  border-top-left-radius: 0%;
-  border-top-right-radius: 0%;
-  border-bottom-right-radius: 10% 20%;
-  border-bottom-left-radius: 10% 20%;
-  z-index: 1;
-  font-size: 2vh;
-  font-family: Calibri;
-  font-weight: bold; 
-  color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: 3%;
+    text-align: center;
+    background-color: #bbaca1;
+    border-top-left-radius: 0%;
+    border-top-right-radius: 0%;
+    border-bottom-right-radius: 10% 20%;
+    border-bottom-left-radius: 10% 20%;
+    z-index: 1;
+    font-size: 2vh;
+    font-family: Calibri;
+    font-weight: bold;
+    color: #fff;
 }
 
 .mhome-game-board {
-  border-radius : 3%;
+    border-radius: 3%;
 }
 
 .mhome-hello {
-  position: absolute;
-  left: 13.8%;
-  top: 8.28%;
-  width: 46.2%;
-  height: 10.3%;
-  text-align: left;
-  color: #E26140;
-  font-size: 6.6vh;
-  font-family: Calibri;
-  font-weight: bold; 
+    position: absolute;
+    left: 13.8%;
+    top: 8.28%;
+    width: 46.2%;
+    height: 10.3%;
+    text-align: left;
+    color: #e26140;
+    font-size: 6.6vh;
+    font-family: Calibri;
+    font-weight: bold;
 }
 
 .mhome-text1 {
-  position: absolute;
-  left: 13.8%;
-  top: 25.5%;
-  width: 75.4%;
-  height: 6.9%;
-  text-align: left;
-  color: #fff;
-  font-size: 4.2vh;
-  font-family: Calibri;
-  font-weight: bold; 
+    position: absolute;
+    left: 13.8%;
+    top: 25.5%;
+    width: 75.4%;
+    height: 6.9%;
+    text-align: left;
+    color: #fff;
+    font-size: 4.2vh;
+    font-family: Calibri;
+    font-weight: bold;
 }
 
 .mhome-text2 {
-  position: absolute;
-  left: 13.8%;
-  top: 32.4%;
-  width: 81.6%;
-  height: 6.9%;
-  text-align: left;
-  color: #fff;
-  font-size: 4.2vh;
-  font-family: Calibri;
-  font-weight: bold; 
+    position: absolute;
+    left: 13.8%;
+    top: 32.4%;
+    width: 81.6%;
+    height: 6.9%;
+    text-align: left;
+    color: #fff;
+    font-size: 4.2vh;
+    font-family: Calibri;
+    font-weight: bold;
 }
 
 .mhome-playbutton {
-  display: flex;
-  background-color: #1c2833;
-  position: absolute;
-  left: 15.8%;
-  top: 43.5%;
-  width: 23.1%;
-  height: 4.14%;
-  justify-content: center;
-  color: #fff;
-  font-size: 2.5vh;
-  font-family: Calibri;
-  font-weight: bold; 
-  border-radius : 7%;
-  align-items: center;
+    display: flex;
+    background-color: #1c2833;
+    position: absolute;
+    left: 15.8%;
+    top: 43.5%;
+    width: 23.1%;
+    height: 4.14%;
+    justify-content: center;
+    color: #fff;
+    font-size: 2.5vh;
+    font-family: Calibri;
+    font-weight: bold;
+    border-radius: 7%;
+    align-items: center;
 }
 
 .mhome-learnbutton {
-  display: flex;
-  background-color: #ebce74;
-  position: absolute;
-  left: 43.1%;
-  top: 43.5%;
-  width: 43.1%;
-  height: 4.14%;
-  justify-content: center;
-  color: #fff;
-  font-size: 2.5vh;
-  font-family: Calibri;
-  font-weight: bold; 
-  border-radius : 7%;
-  align-items: center;
+    display: flex;
+    background-color: #ebce74;
+    position: absolute;
+    left: 43.1%;
+    top: 43.5%;
+    width: 43.1%;
+    height: 4.14%;
+    justify-content: center;
+    color: #fff;
+    font-size: 2.5vh;
+    font-family: Calibri;
+    font-weight: bold;
+    border-radius: 7%;
+    align-items: center;
 }
