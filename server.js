@@ -5,9 +5,9 @@ const io = require("socket.io")(http);
 
 const path = require('path');
 const cors = require('cors');
-var fs = require('fs');
+const fs = require('fs');
 
-app.use(cors())
+app.use(cors());
 app.use(express.static('build'));
 app.use(express.static('static'));
 
@@ -40,5 +40,5 @@ app.get('/', function (req, res) {
 
 
 http.listen(8000, function () {
-  console.log('listening on 8000')
+  console.log('listening on 8000');
 });
