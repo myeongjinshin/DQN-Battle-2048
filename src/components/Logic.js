@@ -163,7 +163,7 @@ export function calculateScore(state) {
 export function isStuck(state, turn) {
     let ret = true;
     for (let i = 0; i < 4; i++) {
-        const [_path, nxt] = calcResult(state, i, turn);
+        const [, nxt] = calcResult(state, i, turn);
         if (JSON.stringify(state) != JSON.stringify(nxt)) {
             ret = false;
             break;

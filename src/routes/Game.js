@@ -5,6 +5,7 @@ import { calcResult, calculateScore, calculateMax, isStuck } from "../components
 import { drawState, animationPath } from "../components/Drawing.js";
 import MyRecorder from "../components/Recorder";
 import { dbService } from "../fbase";
+import PropTypes from "prop-types";
 
 var constants = require("../helpers/Constants.js");
 const playerColor = constants.player_color;
@@ -272,7 +273,6 @@ class Game extends React.Component {
         const history = this.state.history;
         const current = history[this.state.index];
 
-        let status = "Battle 2048!!";
         let message = "Your Turn";
 
         if (current.turn === false) {
@@ -371,5 +371,10 @@ function handleTouchStart(evt) {
     xDown = firstTouch.clientX;
     yDown = firstTouch.clientY;
 }
+
+Game.propTypes = {
+    userObj: PropTypes.object.isRequired,
+    match: PropTypes.any,
+};
 
 export default Game;

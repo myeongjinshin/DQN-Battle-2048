@@ -1,6 +1,7 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import { authService } from "../fbase";
+import PropTypes from "prop-types";
 
 function PrivateRoute({ component: Component, userObj, ...rest }) {
     return (
@@ -21,5 +22,11 @@ function PrivateRoute({ component: Component, userObj, ...rest }) {
         />
     );
 }
+
+PrivateRoute.propTypes = {
+    component: PropTypes.element.isRequired,
+    userObj: PropTypes.object.isRequired,
+    location: PropTypes.any,
+};
 
 export default PrivateRoute;

@@ -11,6 +11,7 @@ import "./listStyles.css";
 // import Swiper core and required modules
 import SwiperCore, { Pagination } from "swiper/core";
 import { dbService } from "../fbase";
+import ReactRouterPropTypes from "react-router-prop-types";
 
 var constants = require("../helpers/Constants.js");
 const playerColor = constants.player_color;
@@ -39,7 +40,7 @@ class List extends React.Component {
 
         this.lists = aiDays.map((i) => {
             return (
-                <SwiperSlide onClick={() => this.handleClick(i)} id={i}>
+                <SwiperSlide onClick={() => this.handleClick(i)} key={i}>
                     <div className="swiper-content">
                         <img
                             className="cleared-image"
@@ -187,3 +188,7 @@ function update_layout() {
         }
     }
 }
+
+List.propTypes = {
+    history: ReactRouterPropTypes.history.isRequired,
+};

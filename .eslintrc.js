@@ -2,19 +2,26 @@ module.exports = {
     root: true,
     env: {
         browser: true,
+        node: true,
         es6: true,
     },
-    extends: ["plugin:prettier/recommended"],
+    extends: ["eslint:recommended", "plugin:react/recommended", "plugin:prettier/recommended"],
+    parser: "babel-eslint",
     parserOptions: {
-        ecmaVersion: 2018,
-        project: ["./tsconfig.json"],
+        ecmaFeatures: {
+            jsx: true,
+        },
+        ecmaVersion: 7,
+        sourceType: "module",
     },
+    plugins: ["react"],
     rules: {
-        'prettier/prettier': [
-            'error',
+        "prettier/prettier": [
+            "error",
             {
-                endOfLine: 'auto',
+                endOfLine: "auto",
             },
         ],
+        "no-console": ["warn"],
     },
 };

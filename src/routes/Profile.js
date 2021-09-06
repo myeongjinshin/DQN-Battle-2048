@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { authService, dbService } from "../fbase";
+import PropTypes from "prop-types";
 
 const Profile = ({ userObj }) => {
     const history = useHistory();
@@ -41,6 +42,10 @@ const Profile = ({ userObj }) => {
             <button onClick={onLogOutClick}>Log Out</button>
         </center>
     );
+};
+
+Profile.propTypes = {
+    userObj: PropTypes.object.isRequired,
 };
 
 export default Profile;

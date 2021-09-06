@@ -22,6 +22,11 @@ jobs:
 
       - name: Install Dependencies    # 의존 파일 설치
         run: npm install
-
+      - name: Install packages
+        run: npm ci
+      - name: Prettier
+        run: npm run format
+      - name: Lint
+        run: npm run lint
       - name: Build                   # React Build
         run: npm run build
