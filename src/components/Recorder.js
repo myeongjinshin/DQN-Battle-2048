@@ -61,14 +61,11 @@ export default class MyRecorder {
         }
         const j = this.replay.length - 1;
         this.replay[j]["done"] = true;
-        console.log("dataset = ", this.database);
-        console.log("replay : ", this.replay);
         return [this.database, this.replay];
     }
     convert(state) {
         let ret = [];
         let ind = 0;
-        console.log("state = ", state);
         for (let i = 0; i < this.map_size; i++) {
             let a = [];
             for (let j = 0; j < this.map_size; j++) {

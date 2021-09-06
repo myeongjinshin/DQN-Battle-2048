@@ -60,7 +60,6 @@ class Game extends React.Component {
 
                 if (ret === false) {
                     const current = tmp.state.history[tmp.state.index];
-                    console.log("roll back", action);
                     model.postMessage({
                         type: "message",
                         value: "again",
@@ -182,7 +181,6 @@ class Game extends React.Component {
 
         //아무것도 바뀌지 않는다면 turn을 넘기지 않음.
         if (JSON.stringify(current.squares) === JSON.stringify(nxt)) {
-            console.log("cut", current.turn);
             return false;
         }
 
@@ -256,11 +254,11 @@ class Game extends React.Component {
         const turn = history[top].turn;
 
         if (turn === false) {
-            console.log("You can only go backwards on your turn.");
+            //You can only go backwards on your turn.
             return;
         }
         if (top <= 0) {
-            console.log("You can't go back");
+            //You can't go back.
             return;
         }
         this.setState({

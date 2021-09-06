@@ -59,7 +59,6 @@ class Home extends React.Component {
 
                 if (ret === false) {
                     const current = tmp.state.history[tmp.state.index];
-                    console.log("roll back", action);
                     model1.postMessage({
                         type: "message",
                         value: "again",
@@ -86,7 +85,6 @@ class Home extends React.Component {
 
                 if (ret === false) {
                     const current = tmp.state.history[tmp.state.index];
-                    console.log("roll back", action);
                     model2.postMessage({
                         type: "message",
                         value: "again",
@@ -171,7 +169,6 @@ class Home extends React.Component {
 
         //아무것도 바뀌지 않는다면 turn을 넘기지 않음.
         if (JSON.stringify(current.squares) === JSON.stringify(nxt)) {
-            console.log("cut", current.turn);
             return false;
         }
 

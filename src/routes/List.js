@@ -36,7 +36,6 @@ class List extends React.Component {
             rowNum: rowNum,
             clearlist: [],
         };
-        console.log("hmm", colNum, rowNum);
 
         this.lists = aiDays.map((i) => {
             return (
@@ -83,7 +82,6 @@ class List extends React.Component {
     }
 
     handleClick(i) {
-        console.log("you clicked " + i);
         const { history } = this.props;
         history.push(`/list/${i}`);
     }
