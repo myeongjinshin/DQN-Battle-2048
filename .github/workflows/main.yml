@@ -24,8 +24,6 @@ jobs:
         run: npm install
       - name: Install packages
         run: npm ci
-      - name: Prettier
-        run: npm run format
       - name: Lint
         run: npm run lint
       - name: Build                   # React Build
