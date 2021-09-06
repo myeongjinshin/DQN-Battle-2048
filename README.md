@@ -4,8 +4,6 @@
 
 Area competition with AI in the 2048 game
 
-[current link](http://104.154.204.226:8000/#/)
-
 ## Game Rules
 This game is a modified of 2048 game.
 
