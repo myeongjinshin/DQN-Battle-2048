@@ -17,7 +17,6 @@ const aiTextColor = constants.ai_text_color;
 const socket = io();
 
 const model = new Worker("Ai.js");
-model.postMessage({ type: "message", value: "start", random: 1 });
 
 const map_size = constants.map_size;
 let pause = false;
@@ -37,21 +36,6 @@ class Game extends React.Component {
         initial_state[map_size - 1] = 1; // AI
         initial_state[map_size * (map_size - 1)] = -1; //Player
 
-        const userDocRef = dbService.collection("user_info").doc(this.props.userObj.uid);
-
-        userDocRef.get().then((doc) => {
-            if (doc.exists) {
-                this.userLevel = doc.data().level;
-                const { params } = this.props.match;
-                this.listLevel = isNaN(Number(params.id)) ? doc.data().level + 1 : Number(params.id);
-                const { history } = props;
-
-                if (this.userLevel + 1 < this.listLevel) {
-                    history.push("/list");
-                }
-            }
-        });
-
         this.state = {
             history: [
                 {
@@ -64,29 +48,46 @@ class Game extends React.Component {
             canvas: document.getElementById("canvas"),
         };
 
-        let tmp = this;
-        model.onmessage = function (e) {
-            const data = e.data;
-            if (data["type"] === "action") {
-                if (tmp.state.winner != null) {
-                    return;
-                }
-                const action = data["value"];
-                const ret = tmp.handleAction(action);
+        const userDocRef = dbService.collection("user_info").doc(this.props.userObj.uid);
 
-                if (ret === false) {
-                    const current = tmp.state.history[tmp.state.index];
-                    model.postMessage({
-                        type: "message",
-                        value: "again",
-                        action: data["value"],
-                        state: current.squares,
-                    });
-                } else {
-                    setTimeout(disablePause, 250);
+        userDocRef.get().then((doc) => {
+            if (doc.exists) {
+                this.userLevel = doc.data().level;
+                const { params } = this.props.match;
+                this.listLevel = isNaN(Number(params.id)) ? doc.data().level + 1 : Number(params.id);
+                const { history } = props;
+
+                if (this.userLevel + 1 < this.listLevel) {
+                    history.push("/list");
                 }
+
+                model.postMessage({ type: "message", value: "start", random: 1, level: this.listLevel });
+
+                let tmp = this;
+                model.onmessage = function (e) {
+                    const data = e.data;
+                    if (data["type"] === "action") {
+                        if (tmp.state.winner != null) {
+                            return;
+                        }
+                        const action = data["value"];
+                        const ret = tmp.handleAction(action);
+
+                        if (ret === false) {
+                            const current = tmp.state.history[tmp.state.index];
+                            model.postMessage({
+                                type: "message",
+                                value: "again",
+                                action: data["value"],
+                                state: current.squares,
+                            });
+                        } else {
+                            setTimeout(disablePause, 250);
+                        }
+                    }
+                };
             }
-        };
+        });
     }
 
     handleResize() {
