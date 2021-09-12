@@ -6,6 +6,7 @@ import { drawState, animationPath } from "../components/Drawing.js";
 import MyRecorder from "../components/Recorder";
 import { dbService } from "../fbase";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router";
 
 var constants = require("../helpers/Constants.js");
 const playerColor = constants.player_color;
@@ -35,6 +36,21 @@ class Game extends React.Component {
         let initial_state = Array(map_size * map_size).fill(0);
         initial_state[map_size - 1] = 1; // AI
         initial_state[map_size * (map_size - 1)] = -1; //Player
+
+        const userDocRef = dbService.collection("user_info").doc(this.props.userObj.uid);
+
+        userDocRef.get().then((doc) => {
+            if (doc.exists) {
+                this.userLevel = doc.data().level;
+                const { params } = this.props.match;
+                this.listLevel = isNaN(Number(params.id)) ? doc.data().level + 1 : Number(params.id);
+                const { history } = props;
+
+                if (this.userLevel + 1 < this.listLevel) {
+                    history.push("/list");
+                }
+            }
+        });
 
         this.state = {
             history: [
@@ -89,6 +105,15 @@ class Game extends React.Component {
     }
 
     componentDidMount() {
+        const listDocRef = dbService.collection("list_info").doc("clear_array");
+        const { history } = this.props;
+
+        listDocRef.get().then((doc) => {
+            if (doc.exists && doc.data().maxDays < this.listLevel) {
+                history.push("/list");
+            }
+        });
+
         this.ctx = this.canvasRef.current.getContext("2d");
         drawState(this.canvasRef.current, this.state.history[this.state.index].squares);
 
@@ -207,20 +232,21 @@ class Game extends React.Component {
                 userUid: this.props.userObj.uid,
             });
             if (winner === true) {
-                const { params } = this.props.match;
                 const listDocRef = dbService.collection("list_info").doc("clear_array");
-                let clearArray = [];
-                listDocRef.get().then((doc) => {
-                    if (doc.exists) {
-                        clearArray = doc.data().clearArray;
-                        clearArray[Number(params.id)]++;
-                        listDocRef.update({ clearArray });
-                    }
-                });
+                const userDocRef = dbService.collection("user_info").doc(this.props.userObj.uid);
 
-                dbService.collection("user_info").doc(this.props.userObj.uid).update({
-                    level: params.id,
-                });
+                if (this.userLevel < this.listLevel) {
+                    userDocRef.update({ level: this.listLevel });
+
+                    let clearArray = [];
+                    listDocRef.get().then((doc) => {
+                        if (doc.exists) {
+                            clearArray = doc.data().clearArray;
+                            clearArray[this.listLevel]++;
+                            listDocRef.update({ clearArray });
+                        }
+                    });
+                }
             }
             const [database, replay] = this.recorder.finishRecord(winner, nxt);
             socket.emit("database", database);
@@ -373,6 +399,7 @@ function handleTouchStart(evt) {
 Game.propTypes = {
     userObj: PropTypes.object.isRequired,
     match: PropTypes.any,
+    history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
 };
 
-export default Game;
+export default withRouter(Game);
