@@ -1,4 +1,5 @@
 from ast import literal_eval
+from model.model import build_actor, build_critic, build_encoder
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
@@ -9,7 +10,7 @@ import json
 import random
 import os
 
-class DQNAgent:
+class Agent:
     def __init__(self):
         with open("props.json", "r") as f:
             props = json.load(f)
@@ -53,22 +54,21 @@ class DQNAgent:
             self.model.load_weights("./history/model_0805_0140.h5")
 
     def build_model(self):
-        model = keras.models.Sequential()
-        model.add(layers.Conv2D(32, kernel_size=(3, 3), activation="relu", kernel_initializer="he_uniform"))
-        
-        model.add(layers.Dense(24, input_dim=self.state_size, activation="relu", kernel_initializer="he_uniform"))
-        model.add(layers.Dense(24, activation="relu", kernel_initializer="he_uniform"))
-        model.add(layers.Dense(24, activation="relu", kernel_initializer="he_uniform"))
-        model.add(
-            layers.Dense(
-                self.action_size, activation="linear", kernel_initializer="he_uniform"
-            )
-        )
-        model.summary()
-        model.compile(
+        self.encoder = build_encoder()
+        self.actor = build_actor()
+        self.critic = build_critic()
+        self.encoder.summary()
+        self.encoder.compile(
             optimizer=Adam(lr=self.learning_rate), loss="mse", metrics=["mae"]
         )
-        return model
+        self.actor.summary()
+        self.actor.compile(
+            optimizer=Adam(lr=self.learning_rate), loss="mse", metrics=["mae"]
+        )
+        self.critic.summary()
+        self.critic.compile(
+            optimizer=Adam(lr=self.learning_rate), loss="mse", metrics=["mae"]
+        )
 
     # 타깃 모델을 모델의 가중치로 업데이트
     def update_target_model(self):
@@ -121,7 +121,7 @@ class DQNAgent:
 
 if __name__ == "__main__":
     # DQN 에이전트 생성
-    agent = DQNAgent()
+    agent = Agent()
 
     if len(agent.memory) >= agent.train_start:
         for i in range(500) :
