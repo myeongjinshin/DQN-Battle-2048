@@ -6,6 +6,7 @@ import { drawState, animationPath } from "../components/Drawing.js";
 import MyRecorder from "../components/Recorder";
 import { dbService } from "../fbase";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router";
 
 var constants = require("../helpers/Constants.js");
 const playerColor = constants.player_color;
@@ -16,7 +17,6 @@ const aiTextColor = constants.ai_text_color;
 const socket = io();
 
 const model = new Worker("Ai.js");
-model.postMessage({ type: "message", value: "start", random: 1 });
 
 const map_size = constants.map_size;
 let pause = false;
@@ -48,29 +48,46 @@ class Game extends React.Component {
             canvas: document.getElementById("canvas"),
         };
 
-        let tmp = this;
-        model.onmessage = function (e) {
-            const data = e.data;
-            if (data["type"] === "action") {
-                if (tmp.state.winner != null) {
-                    return;
-                }
-                const action = data["value"];
-                const ret = tmp.handleAction(action);
+        const userDocRef = dbService.collection("user_info").doc(this.props.userObj.uid);
 
-                if (ret === false) {
-                    const current = tmp.state.history[tmp.state.index];
-                    model.postMessage({
-                        type: "message",
-                        value: "again",
-                        action: data["value"],
-                        state: current.squares,
-                    });
-                } else {
-                    setTimeout(disablePause, 250);
+        userDocRef.get().then((doc) => {
+            if (doc.exists) {
+                this.userLevel = doc.data().level;
+                const { params } = this.props.match;
+                this.listLevel = isNaN(Number(params.id)) ? doc.data().level + 1 : Number(params.id);
+                const { history } = props;
+
+                if (this.userLevel + 1 < this.listLevel) {
+                    history.push("/list");
                 }
+
+                model.postMessage({ type: "message", value: "start", random: 1, level: this.listLevel });
+
+                let tmp = this;
+                model.onmessage = function (e) {
+                    const data = e.data;
+                    if (data["type"] === "action") {
+                        if (tmp.state.winner != null) {
+                            return;
+                        }
+                        const action = data["value"];
+                        const ret = tmp.handleAction(action);
+
+                        if (ret === false) {
+                            const current = tmp.state.history[tmp.state.index];
+                            model.postMessage({
+                                type: "message",
+                                value: "again",
+                                action: data["value"],
+                                state: current.squares,
+                            });
+                        } else {
+                            setTimeout(disablePause, 250);
+                        }
+                    }
+                };
             }
-        };
+        });
     }
 
     handleResize() {
@@ -89,6 +106,15 @@ class Game extends React.Component {
     }
 
     componentDidMount() {
+        const listDocRef = dbService.collection("list_info").doc("clear_array");
+        const { history } = this.props;
+
+        listDocRef.get().then((doc) => {
+            if (doc.exists && doc.data().maxDays < this.listLevel) {
+                history.push("/list");
+            }
+        });
+
         this.ctx = this.canvasRef.current.getContext("2d");
         drawState(this.canvasRef.current, this.state.history[this.state.index].squares);
 
@@ -207,20 +233,21 @@ class Game extends React.Component {
                 userUid: this.props.userObj.uid,
             });
             if (winner === true) {
-                const { params } = this.props.match;
                 const listDocRef = dbService.collection("list_info").doc("clear_array");
-                let clearArray = [];
-                listDocRef.get().then((doc) => {
-                    if (doc.exists) {
-                        clearArray = doc.data().clearArray;
-                        clearArray[Number(params.id)]++;
-                        listDocRef.update({ clearArray });
-                    }
-                });
+                const userDocRef = dbService.collection("user_info").doc(this.props.userObj.uid);
 
-                dbService.collection("user_info").doc(this.props.userObj.uid).update({
-                    level: params.id,
-                });
+                if (this.userLevel < this.listLevel) {
+                    userDocRef.update({ level: this.listLevel });
+
+                    let clearArray = [];
+                    listDocRef.get().then((doc) => {
+                        if (doc.exists) {
+                            clearArray = doc.data().clearArray;
+                            clearArray[this.listLevel]++;
+                            listDocRef.update({ clearArray });
+                        }
+                    });
+                }
             }
             const [database, replay] = this.recorder.finishRecord(winner, nxt);
             socket.emit("database", database);
@@ -373,6 +400,7 @@ function handleTouchStart(evt) {
 Game.propTypes = {
     userObj: PropTypes.object.isRequired,
     match: PropTypes.any,
+    history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
 };
 
-export default Game;
+export default withRouter(Game);

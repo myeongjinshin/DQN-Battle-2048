@@ -82,8 +82,13 @@ class List extends React.Component {
     }
 
     handleClick(i) {
-        const { history } = this.props;
-        history.push(`/list/${i}`);
+        const listDocRef = dbService.collection("list_info").doc("clear_array");
+        listDocRef.get().then((doc) => {
+            if (doc.exists && i <= doc.data().maxDays) {
+                const { history } = this.props;
+                history.push(`/list/${i}`);
+            }
+        });
     }
 
     render() {
