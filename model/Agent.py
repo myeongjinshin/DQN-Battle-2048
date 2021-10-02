@@ -69,6 +69,24 @@ class Agent:
         self.critic.compile(
             optimizer=Adam(lr=self.learning_rate), loss="mse", metrics=["mae"]
         )
+    
+    def train_model(self, state, action, reward, next_state, done) :
+        target = np.zeros((1, 1))
+        advantages = np.zeros((1, 4))
+
+        value = self.critic.predict(state)[0]
+        next_value = self.critic.predict(next_state)[0]
+
+        if done:
+            advantages[0][action] = reward - value
+            target[0][0] = reward
+        else:
+            advantages[0][action] = reward + self.discount_factor * next_value - value
+            target[0][0] = reward + self.discount_factor * next_value
+        
+        self.actor.fit(state, advantages, epoches=1, verbos=0)
+        self.critic.fit(state, target, epoches=1, verbos=0)
+        
 
     # 타깃 모델을 모델의 가중치로 업데이트
     def update_target_model(self):
