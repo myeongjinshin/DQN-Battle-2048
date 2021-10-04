@@ -9,21 +9,15 @@ import numpy as np
 import json
 import random
 import os
+from model.rl.util import load_from_replay
 
 class Agent:
     def __init__(self):
         with open("props.json", "r") as f:
             props = json.load(f)
 
-        memory = []
-        with open("./dataset/dataset.txt", "r") as f:
-            while True :
-                line = f.readline()
-                line = line.replace("false", "False");
-                line = line.replace("true", "True");
-                if not line :
-                    break
-                memory.append(literal_eval(line))
+        memory = load_from_replay("./dataset/dataset.txt")
+        
 
         self.load_model = props["load_model"]
         self.model_name = props["model_name"]
@@ -54,13 +48,8 @@ class Agent:
             self.model.load_weights("./history/model_0805_0140.h5")
 
     def build_model(self):
-        self.encoder = build_encoder()
         self.actor = build_actor()
         self.critic = build_critic()
-        self.encoder.summary()
-        self.encoder.compile(
-            optimizer=Adam(lr=self.learning_rate), loss="mse", metrics=["mae"]
-        )
         self.actor.summary()
         self.actor.compile(
             optimizer=Adam(lr=self.learning_rate), loss="mse", metrics=["mae"]
@@ -69,26 +58,27 @@ class Agent:
         self.critic.compile(
             optimizer=Adam(lr=self.learning_rate), loss="mse", metrics=["mae"]
         )
+    
+    def train_step(self, state, action, reward, next_state, done) :
+        target = np.zeros((1, 1))
+        advantages = np.zeros((1, 4))
 
-    # 타깃 모델을 모델의 가중치로 업데이트
-    def update_target_model(self):
-        self.target_model.set_weights(self.model.get_weights())
+        value = self.critic.predict(state)[0]
+        next_value = self.critic.predict(next_state)[0]
 
-    def append_sample(self, state, action, reward, next_state, done):
-        self.memory.append(
-            {
-                "state": state,
-                "action": action,
-                "reward": reward,
-                "next_state": next_state,
-                "done": done,
-            }
-        )
+        if done:
+            advantages[0][action] = reward - value
+            target[0][0] = reward
+        else:
+            advantages[0][action] = reward + self.discount_factor * next_value - value
+            target[0][0] = reward + self.discount_factor * next_value
+        
+        actor_hist = self.actor.fit(state, advantages, epoches=1, verbos=0)
+        critic_hist = self.critic.fit(state, target, epoches=1, verbos=0)
+        return actor_hist, critic_hist
 
     # 리플레이 메모리에서 무작위로 추출한 배치로 모델 학습
     def train_model(self):
-        if self.epsilon > self.epsilon_min:
-            self.epsilon *= self.epsilon_decay
 
         tot_loss = 0
         for st in range(0, len(self.memory), self.batch_size) :
